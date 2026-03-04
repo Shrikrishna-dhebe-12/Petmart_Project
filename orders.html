@@ -1,0 +1,369 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Orders - McDonald's{% endblock %}
+
+{% block extra_css %}
+<style>
+    .orders-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #f0f9ff, #ffffff);
+        min-height: calc(100vh - 200px);
+    }
+
+    .orders-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .orders-header h1 {
+        font-family: 'Archivo Black', sans-serif;
+        color: #1E88E5;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .orders-header p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .order-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .order-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(30,136,229,0.15);
+    }
+
+    .order-header {
+        background: linear-gradient(135deg, #1E88E5, #0D47A1);
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .order-id {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .order-id i {
+        margin-right: 10px;
+    }
+
+    .order-status {
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .status-pending {
+        background: #E3F2FD;
+        color: #1E88E5;
+    }
+
+    .status-confirmed {
+        background: #BBDEFB;
+        color: #0D47A1;
+    }
+
+    .status-preparing {
+        background: #E5F3FF;
+        color: #1E88E5;
+    }
+
+    .status-delivered {
+        background: #E8F5E9;
+        color: #2E7D32;
+    }
+
+    .status-cancelled {
+        background: #FFEBEE;
+        color: #C62828;
+    }
+
+    .order-body {
+        padding: 20px;
+    }
+
+    .order-items {
+        margin-bottom: 20px;
+    }
+
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px dashed #eee;
+    }
+
+    .order-item:last-child {
+        border-bottom: none;
+    }
+
+    .item-name {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .item-quantity {
+        color: #1E88E5;
+        font-weight: 600;
+        margin: 0 15px;
+    }
+
+    .item-price {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .order-total {
+        background: #FFF8F0;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+
+    .total-row.grand-total {
+        border-top: 2px solid #1E88E5;
+        margin-top: 8px;
+        padding-top: 15px;
+        font-weight: bold;
+        color: #1E88E5;
+        font-size: 1.2rem;
+    }
+
+    .order-footer {
+        padding: 20px;
+        background: #F8F9FA;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .order-date {
+        color: #666;
+    }
+
+    .order-date i {
+        margin-right: 5px;
+        color: #1E88E5;
+    }
+
+    .order-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-view {
+        padding: 8px 20px;
+        background: linear-gradient(135deg, #1E88E5, #0D47A1);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-view:hover {
+        background: linear-gradient(135deg, #0D47A1, #1E88E5);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(30,136,229,0.3);
+    }
+
+    .btn-repeat {
+        padding: 8px 20px;
+        background: #42A5F5;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-repeat:hover {
+        background: #1E88E5;
+        transform: translateY(-2px);
+    }
+
+    .no-orders {
+        text-align: center;
+        padding: 80px 20px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .no-orders i {
+        font-size: 80px;
+        color: #1E88E5;
+        margin-bottom: 20px;
+    }
+
+    .no-orders h3 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .no-orders p {
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .btn-order-now {
+        display: inline-block;
+        padding: 15px 40px;
+        background: linear-gradient(135deg, #1E88E5, #0D47A1);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-order-now:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(30,136,229,0.3);
+    }
+
+    @media (max-width: 768px) {
+        .orders-section { padding: 40px 0; }
+        .orders-header h1 { font-size: 2rem; }
+        .order-header { flex-direction: column; gap: 10px; }
+        .order-footer { flex-direction: column; }
+        .order-actions { width: 100%; }
+        .btn-view, .btn-repeat { flex: 1; text-align: center; }
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<section class="orders-section">
+    <div class="container">
+        <div class="orders-header" data-aos="fade-up">
+            <h1><i class="bi bi-bag-check"></i> My Orders</h1>
+            <p>Track and manage your McDonald's orders</p>
+        </div>
+
+        {% if orders %}
+            {% for order in orders %}
+            <div class="order-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:100 }}">
+                <div class="order-header">
+                    <span class="order-id">
+                        <i class="bi bi-receipt"></i> Order #{{ order.id }}
+                    </span>
+                    <span class="order-status status-{{ order.status }}">
+                        {% if order.status == 'pending' %}
+                            <i class="bi bi-clock"></i> Pending
+                        {% elif order.status == 'confirmed' %}
+                            <i class="bi bi-check-circle"></i> Confirmed
+                        {% elif order.status == 'preparing' %}
+                            <i class="bi bi-egg-fried"></i> Preparing
+                        {% elif order.status == 'delivered' %}
+                            <i class="bi bi-check-circle-fill"></i> Delivered
+                        {% elif order.status == 'cancelled' %}
+                            <i class="bi bi-x-circle"></i> Cancelled
+                        {% else %}
+                            {{ order.status|title }}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="order-body">
+                    <div class="order-items">
+                        {% for item in order.items.all %}
+                        <div class="order-item">
+                            <span class="item-name">{{ item.name }}</span>
+                            <span class="item-quantity">x{{ item.quantity }}</span>
+                            <span class="item-price">₹{{ item.price }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="order-total">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span>₹{{ order.subtotal }}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Tax (5%):</span>
+                            <span>₹{{ order.tax }}</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Delivery Fee:</span>
+                            <span>₹{{ order.delivery_fee }}</span>
+                        </div>
+                        {% if order.discount > 0 %}
+                        <div class="total-row">
+                            <span>Discount:</span>
+                            <span>-₹{{ order.discount }}</span>
+                        </div>
+                        {% endif %}
+                        <div class="total-row grand-total">
+                            <span>Total:</span>
+                            <span>₹{{ order.total }}</span>
+                        </div>
+                    </div>
+
+                    <div class="order-footer">
+                        <div class="order-date">
+                            <i class="bi bi-calendar"></i> {{ order.order_date|date:"d M Y, h:i A" }}
+                        </div>
+                        <div class="order-actions">
+                            <a href="{% url 'order_detail' order.id %}" class="btn-view">
+                                <i class="bi bi-eye"></i> View Details
+                            </a>
+                            <a href="{% url 'menu' %}" class="btn-repeat">
+                                <i class="bi bi-arrow-repeat"></i> Order Again
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-orders" data-aos="fade-up">
+                <i class="bi bi-bag-x"></i>
+                <h3>No Orders Yet!</h3>
+                <p>Looks like you haven't placed any orders. Time to try our delicious food!</p>
+                <a href="{% url 'menu' %}" class="btn-order-now">
+                    <i class="bi bi-menu-button-wide"></i> Browse Menu
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 50
+    });
+</script>
+{% endblock %}

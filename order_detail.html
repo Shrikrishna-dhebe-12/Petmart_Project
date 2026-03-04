@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Order #{{ order.id }} Details - McDonald's{% endblock %}
+
+{% block main %}
+
+<style>
+    .detail-container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #f0f0f0;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    
+    .detail-header h1 {
+        font-family: 'Archivo Black', sans-serif;
+        color: #1E88E5;
+        margin: 0;
+    }
+    
+    .status {
+        padding: 8px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+    }
+    
+    .status-pending {
+        background: #E3F2FD;
+        color: #1E88E5;
+    }
+    
+    .status-confirmed {
+        background: #BBDEFB;
+        color: #0D47A1;
+    }
+    
+    .status-preparing {
+        background: #E5F3FF;
+        color: #1E88E5;
+    }
+    
+    .status-delivered {
+        background: #E8F5E9;
+        color: #2E7D32;
+    }
+    
+    .status-cancelled {
+        background: #FFEBEE;
+        color: #C62828;
+    }
+    
+    .order-date {
+        color: #666;
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .info-box {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+    }
+    
+    .info-box h3 {
+        color: #1E88E5;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .info-row:last-child {
+        border-bottom: none;
+    }
+    
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+    }
+    
+    .items-table th {
+        background: linear-gradient(135deg, #1E88E5, #0D47A1);
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
+    
+    .items-table td {
+        padding: 12px;
+        border-bottom: 1px solid #dee2e6;
+    }
+    
+    .items-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .total-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        margin: 20px 0;
+    }
+    
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+    
+    .grand-total {
+        font-weight: bold;
+        font-size: 1.3rem;
+        color: #1E88E5;
+        border-top: 2px solid #1E88E5;
+        margin-top: 10px;
+        padding-top: 15px;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+    
+    .back-btn, .order-again-btn {
+        display: inline-block;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .back-btn {
+        background: #6c757d;
+        color: white;
+    }
+    
+    .order-again-btn {
+        background: linear-gradient(135deg, #1E88E5, #0D47A1);
+        color: white;
+    }
+    
+    .back-btn:hover, .order-again-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(30,136,229,0.3);
+    }
+    
+    .payment-method {
+        margin-top: 15px;
+        padding: 10px;
+        background: linear-gradient(135deg, #1E88E5, #0D47A1);
+        color: white;
+        border-radius: 50px;
+        text-align: center;
+        font-weight: 600;
+    }
+    
+    @media (max-width: 768px) {
+        .detail-container { margin: 20px; padding: 20px; }
+        .info-grid { grid-template-columns: 1fr; }
+        .detail-header { flex-direction: column; align-items: start; }
+        .action-buttons { flex-direction: column; }
+    }
+</style>
+
+<section>
+    <div class="container">
+        <div class="detail-container">
+            <div class="detail-header">
+                <div>
+                    <h1><i class="bi bi-receipt"></i> Order #{{ order.id }}</h1>
+                    <div class="order-date">
+                        <i class="bi bi-calendar"></i> {{ order.order_date|date:"d M Y, h:i A" }}
+                    </div>
+                </div>
+                <span class="status status-{{ order.status }}">
+                    {% if order.status == 'pending' %}
+                        <i class="bi bi-clock"></i> Pending
+                    {% elif order.status == 'confirmed' %}
+                        <i class="bi bi-check-circle"></i> Confirmed
+                    {% elif order.status == 'preparing' %}
+                        <i class="bi bi-egg-fried"></i> Preparing
+                    {% elif order.status == 'delivered' %}
+                        <i class="bi bi-check-circle-fill"></i> Delivered
+                    {% elif order.status == 'cancelled' %}
+                        <i class="bi bi-x-circle"></i> Cancelled
+                    {% else %}
+                        {{ order.status|title }}
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="info-grid">
+                <div class="info-box">
+                    <h3><i class="bi bi-person"></i> Customer Details</h3>
+                    <div class="info-row">
+                        <span>Name:</span>
+                        <span><strong>{{ order.name }}</strong></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Phone:</span>
+                        <span><strong>{{ order.phone }}</strong></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Email:</span>
+                        <span><strong>{{ order.email }}</strong></span>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <h3><i class="bi bi-geo-alt"></i> Delivery Address</h3>
+                    <div class="info-row">
+                        <span>Address:</span>
+                        <span><strong>{{ order.address }}</strong></span>
+                    </div>
+                    {% if order.city %}
+                    <div class="info-row">
+                        <span>City:</span>
+                        <span><strong>{{ order.city }}</strong></span>
+                    </div>
+                    {% endif %}
+                    {% if order.pincode %}
+                    <div class="info-row">
+                        <span>Pincode:</span>
+                        <span><strong>{{ order.pincode }}</strong></span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="payment-method">
+                <i class="bi bi-credit-card"></i> Payment Method: {{ order.get_payment_method_display }}
+            </div>
+            
+            <h3 style="margin: 30px 0 20px; color: #1E88E5;">
+                <i class="bi bi-basket"></i> Order Items
+            </h3>
+            
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>x{{ item.quantity }}</td>
+                        <td>₹{{ item.price }}</td>
+                        <td><strong>₹{{ item.get_total }}</strong></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="total-section">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span>₹{{ order.subtotal }}</span>
+                </div>
+                <div class="total-row">
+                    <span>Tax (5%):</span>
+                    <span>₹{{ order.tax }}</span>
+                </div>
+                <div class="total-row">
+                    <span>Delivery Fee:</span>
+                    <span>₹{{ order.delivery_fee }}</span>
+                </div>
+                {% if order.discount > 0 %}
+                <div class="total-row">
+                    <span>Discount:</span>
+                    <span>-₹{{ order.discount }}</span>
+                </div>
+                {% endif %}
+                <div class="total-row grand-total">
+                    <span>Grand Total:</span>
+                    <span>₹{{ order.total }}</span>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="{% url 'orders' %}" class="back-btn">
+                    <i class="bi bi-arrow-left"></i> Back to Orders
+                </a>
+                <a href="{% url 'menu' %}" class="order-again-btn">
+                    <i class="bi bi-arrow-repeat"></i> Order Again
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

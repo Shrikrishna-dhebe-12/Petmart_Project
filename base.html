@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petmart India - {% block title %}Happiness for Your Furry Friends{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=Clash+Display:wght@400;500;600;700&family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1997/1997997.png">
+    
+    {% block extra_css %}{% endblock %}
+    
+    <style>
+        /* ===== DESIGN SYSTEM ===== */
+        :root {
+            /* Petmart Official Colors */
+            --petmart-blue: #4A90E2;
+            --petmart-blue-dark: #3A7BC8;
+            --petmart-blue-light: #7BB0F0;
+            --petmart-blue-soft: #E6F0FF;
+            --petmart-orange: #FF9F4B;
+            --petmart-orange-dark: #F08C32;
+            --petmart-orange-light: #FFB87A;
+            --petmart-orange-soft: #FFF0E0;
+            --petmart-green: #4CAF50;
+            --petmart-green-dark: #3E9C42;
+            --petmart-green-light: #7FCC81;
+            --petmart-brown: #8B6B4D;
+            --petmart-brown-light: #A58E7A;
+            --petmart-brown-soft: #F5EEE8;
+            --petmart-black: #272321;
+            --petmart-black-light: #40342C;
+            --petmart-white: #FFFFFF;
+            --petmart-offwhite: #F9F9F9;
+            --petmart-gray: #F8F9FA;
+            --petmart-gray-dark: #6B6B6B;
+            
+            /* Semantic Colors */
+            --primary: var(--petmart-blue);
+            --primary-dark: var(--petmart-blue-dark);
+            --primary-light: var(--petmart-blue-light);
+            --secondary: var(--petmart-orange);
+            --secondary-dark: var(--petmart-orange-dark);
+            --secondary-light: var(--petmart-orange-light);
+            --accent: var(--petmart-green);
+            --dark: var(--petmart-black);
+            --light: var(--petmart-offwhite);
+            
+            /* Typography */
+            --font-primary: 'Space Grotesk', sans-serif;
+            --font-display: 'Clash Display', sans-serif;
+            --font-bold: 'Archivo Black', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-base: 'DM Sans', sans-serif;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+            --spacing-3xl: 4rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.14);
+            --shadow-xl: 0 16px 32px rgba(0,0,0,0.16);
+            
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+        }
+        
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-base);
+            color: var(--dark);
+            background-color: var(--petmart-white);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+        
+        /* ===== NAVBAR ===== */
+        .navbar-petmart {
+            background: var(--petmart-white);
+            box-shadow: var(--shadow-md);
+            padding: var(--spacing-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--petmart-orange);
+        }
+        
+        .navbar-petmart .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .navbar-petmart .brand-logo {
+            height: 50px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-petmart .brand-logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .navbar-petmart .brand-text {
+            font-family: var(--font-bold);
+            font-size: 1.5rem;
+            color: var(--petmart-blue);
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+        
+        .navbar-petmart .brand-text span {
+            color: var(--petmart-orange);
+            font-size: 0.9rem;
+            display: block;
+            font-family: var(--font-base);
+            letter-spacing: 1px;
+        }
+        
+        .navbar-petmart .nav-link {
+            font-weight: 500;
+            color: var(--dark);
+            padding: var(--spacing-sm) var(--spacing-lg) !important;
+            margin: 0 var(--spacing-xs);
+            border-radius: var(--radius-full);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar-petmart .nav-link:hover {
+            color: var(--petmart-blue);
+            background: rgba(74, 144, 226, 0.05);
+        }
+        
+        .navbar-petmart .nav-link.active {
+            color: var(--petmart-blue);
+            background: rgba(74, 144, 226, 0.1);
+            font-weight: 600;
+        }
+        
+        .navbar-petmart .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 3px;
+            background: var(--petmart-orange);
+            border-radius: var(--radius-full);
+        }
+        
+        .navbar-petmart .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .navbar-petmart .cart-badge {
+            position: relative;
+            background: var(--petmart-orange);
+            color: var(--dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-petmart .cart-badge:hover {
+            transform: scale(1.1);
+            background: var(--petmart-orange-dark);
+        }
+        
+        .navbar-petmart .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--petmart-blue);
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .navbar-petmart .auth-btn {
+            background: var(--petmart-blue);
+            color: white !important;
+            padding: 0.5rem 1.5rem !important;
+            border-radius: var(--radius-full);
+        }
+        
+        .navbar-petmart .auth-btn:hover {
+            background: var(--petmart-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer-petmart {
+            background: var(--petmart-black);
+            color: white;
+            padding: var(--spacing-3xl) 0 var(--spacing-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-petmart::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--petmart-blue), var(--petmart-orange), var(--petmart-blue));
+        }
+        
+        .footer-petmart .footer-logo {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .footer-petmart .footer-logo img {
+            height: 60px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-petmart .footer-title {
+            font-family: var(--font-bold);
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--petmart-orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .footer-petmart .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-petmart .footer-links li {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .footer-petmart .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .footer-petmart .footer-links a:hover {
+            color: var(--petmart-orange);
+            transform: translateX(5px);
+        }
+        
+        .footer-petmart .social-links {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .footer-petmart .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-petmart .social-link:hover {
+            background: var(--petmart-orange);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+        
+        .footer-petmart .footer-bottom {
+            margin-top: var(--spacing-2xl);
+            padding-top: var(--spacing-lg);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+        
+        .footer-petmart .footer-bottom a {
+            color: var(--petmart-orange);
+            text-decoration: none;
+        }
+        
+        .footer-petmart .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer-petmart .newsletter-input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-full);
+            padding: 0.75rem 1rem;
+            color: white;
+            width: 100%;
+        }
+        
+        .footer-petmart .newsletter-input:focus {
+            outline: none;
+            border-color: var(--petmart-orange);
+        }
+        
+        .footer-petmart .newsletter-btn {
+            background: var(--petmart-orange);
+            color: var(--dark);
+            border: none;
+            border-radius: var(--radius-full);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            margin-top: var(--spacing-sm);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-petmart .newsletter-btn:hover {
+            background: var(--petmart-orange-dark);
+            transform: translateY(-2px);
+        }
+        
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            background: linear-gradient(135deg, var(--petmart-blue), var(--petmart-blue-dark));
+            padding: 60px 0;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255,159,75,0.1);
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            left: -50px;
+            bottom: -50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .page-header .page-title {
+            font-family: var(--font-bold);
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .page-header .page-breadcrumb {
+            color: rgba(255,255,255,0.8);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .page-header .page-breadcrumb a {
+            color: var(--petmart-orange);
+            text-decoration: none;
+        }
+        
+        .page-header .page-breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ===== UTILITY CLASSES ===== */
+        .bg-petmart-blue { background-color: var(--petmart-blue); }
+        .bg-petmart-orange { background-color: var(--petmart-orange); }
+        .bg-petmart-green { background-color: var(--petmart-green); }
+        .bg-petmart-black { background-color: var(--petmart-black); }
+        .bg-petmart-light { background-color: var(--petmart-offwhite); }
+        
+        .text-petmart-blue { color: var(--petmart-blue); }
+        .text-petmart-orange { color: var(--petmart-orange); }
+        .text-petmart-green { color: var(--petmart-green); }
+        .text-petmart-black { color: var(--petmart-black); }
+        
+        .btn-petmart-primary {
+            background: var(--petmart-blue);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-petmart-primary:hover {
+            background: var(--petmart-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: white;
+        }
+        
+        .btn-petmart-secondary {
+            background: var(--petmart-orange);
+            color: var(--dark);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-petmart-secondary:hover {
+            background: var(--petmart-orange-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        /* ===== PET-SPECIFIC STYLES ===== */
+        .pet-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: var(--petmart-blue-soft);
+            color: var(--petmart-blue);
+        }
+        
+        .pet-badge.dog {
+            background: #E6F0FF;
+            color: var(--petmart-blue);
+        }
+        
+        .pet-badge.cat {
+            background: #FFF0E0;
+            color: var(--petmart-orange);
+        }
+        
+        .pet-badge.bird {
+            background: #E8F5E9;
+            color: var(--petmart-green);
+        }
+        
+        .pet-badge.fish {
+            background: #E0F7FA;
+            color: #00BCD4;
+        }
+        
+        .pet-badge.small {
+            background: #F3E5F5;
+            color: #9C27B0;
+        }
+        
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pawPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .animate-fade-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .animate-fade-left {
+            animation: fadeInLeft 0.6s ease forwards;
+        }
+        
+        .animate-fade-right {
+            animation: fadeInRight 0.6s ease forwards;
+        }
+        
+        .animate-paw {
+            animation: pawPulse 2s infinite;
+        }
+        
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+        .delay-4 { animation-delay: 0.8s; }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 991.98px) {
+            .navbar-petmart .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: var(--radius-lg);
+                margin-top: 1rem;
+                box-shadow: var(--shadow-lg);
+            }
+            
+            .navbar-petmart .nav-link.active::after {
+                display: none;
+            }
+            
+            .page-header .page-title {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .page-header {
+                padding: 40px 0;
+            }
+            
+            .page-header .page-title {
+                font-size: 2rem;
+            }
+            
+            .footer-petmart .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body {% block body_class %}{% endblock %}>
+
+    <nav class="navbar navbar-expand-lg navbar-petmart">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="https://img.freepik.com/premium-vector/modern-fun-illustration-dog-cat-silhouette_483837-294.jpg?w=2000" 
+                     alt="Petmart Logo" 
+                     class="brand-logo"
+                     style="height: 100px; width: auto;">
+                <div class="brand-text" style="font-size: 2.2rem;">
+                    Petmart
+                    
+                </div>
+            </a> 
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% block home_status %}{% endblock %}" href="{% url 'home' %}">
+                            <i class="bi bi-house-door me-1"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block menu_status %}{% endblock %}" href="{% url 'menu' %}">
+                            <i class="bi bi-box me-1"></i> Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block about_status %}{% endblock %}" href="{% url 'about' %}">
+                            <i class="bi bi-info-circle me-1"></i> About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% block feedback_status %}{% endblock %}" href="{% url 'feedback' %}">
+                            <i class="bi bi-chat-heart me-1"></i> Feedback
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="{% url 'cart' %}" class="cart-badge">
+                        <i class="bi bi-cart"></i>
+                        <span class="cart-count" id="navbarCartCount">{{ cart_count }}</span>
+                    </a>
+                    
+                    {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> {{ user.username }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'orders' %}">My Orders</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="nav-link auth-btn">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main {% block main_class %}{% endblock %}>
+        {% block main %}
+        {% endblock %}
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer-petmart">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="footer-logo">
+                        <img src="https://wallup.net/wp-content/uploads/2018/10/06/798344-cute-baby-animal-dogs.jpg" 
+                             alt="Petmart Logo">
+                    </div>
+                    <p class="text-white-50 mb-4">
+                        Everything your furry friends need. Premium quality pet food, toys, accessories, 
+                        and healthcare products — delivered with love since 1996.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/PetmartIndia" target="_blank" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.instagram.com/petmart_india" target="_blank" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="https://twitter.com/Petmart_IN" target="_blank" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://www.youtube.com/c/PetmartIndia" target="_blank" class="social-link"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-title">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}"><i class="bi bi-chevron-right"></i> Home</a></li>
+                        <li><a href="{% url 'menu' %}"><i class="bi bi-chevron-right"></i> Products</a></li>
+                        <li><a href="{% url 'about' %}"><i class="bi bi-chevron-right"></i> About Us</a></li>
+                        <li><a href="{% url 'feedback' %}"><i class="bi bi-chevron-right"></i> Feedback</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">Contact Info</h5>
+                    <ul class="footer-links">
+                        <li><i class="bi bi-geo-alt"></i> Main Street, Pune, Maharashtra 411001</li>
+                        <li><i class="bi bi-telephone"></i> +91 98765 43210</li>
+                        <li><i class="bi bi-envelope"></i> care@petmartindia.com</li>
+                        <li><i class="bi bi-clock"></i> Open: 9:00 AM - 9:00 PM</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3">
+                    <h5 class="footer-title">Newsletter</h5>
+                    <p class="text-white-50 small">Get updates on new products and special offers</p>
+                    <form class="newsletter-form" method="POST" action="{% url 'newsletter' %}">
+                        {% csrf_token %}
+                        <input type="email" name="email" class="newsletter-input" placeholder="Your email" required>
+                        <button type="submit" class="newsletter-btn w-100">
+                            <i class="bi bi-send me-2"></i>Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="mb-0">
+                    &copy; {% now "Y" %} Petmart India. All rights reserved. | 
+                    <a href="#">Privacy Policy</a> | 
+                    <a href="#">Terms of Service</a> | 
+                    <a href="#">Cookie Policy</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jQuery (optional, for some features) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Function to update cart count via AJAX (for when items are added)
+        function updateCartCount() {
+            fetch('/cart/data/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelectorAll('.cart-count').forEach(el => {
+                            el.textContent = data.count;
+                        });
+                    }
+                })
+                .catch(error => console.error('Error updating cart count:', error));
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Add active class to current nav item
+        const currentLocation = window.location.pathname;
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentLocation) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Pet type badges hover effect
+        document.querySelectorAll('.pet-badge').forEach(badge => {
+            badge.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            badge.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,2465 @@
+{% extends "base.html" %}
+{% block class %}class="petmart-original"{% endblock %}
+{% block home_status %}active{% endblock %}
+{% load static %}
+
+{% block main %}
+
+<!-- Custom Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@300;400;500;600;700&family=Clash+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+/* ===== DESIGN SYSTEM ===== */
+:root {
+  --primary-50: #e6f0ff;
+  --primary-100: #b8d5ff;
+  --primary-200: #8abaFF;
+  --primary-300: #5c9fff;
+  --primary-400: #2e84ff;
+  --primary-500: #0066cc;
+  --primary-600: #0052b3;
+  --primary-700: #003d99;
+  --primary-800: #002980;
+  --primary-900: #001466;
+  
+  --accent-50: #fff2e6;
+  --accent-100: #ffdab3;
+  --accent-200: #ffc280;
+  --accent-300: #ffaa4d;
+  --accent-400: #ff921a;
+  --accent-500: #ff7b00;
+  --accent-600: #e66b00;
+  --accent-700: #cc5c00;
+  --accent-800: #b34d00;
+  --accent-900: #993e00;
+  
+  --neutral-50: #faf9f7;
+  --neutral-100: #f0eeea;
+  --neutral-200: #e1ddd6;
+  --neutral-300: #d2ccc2;
+  --neutral-400: #c3bbae;
+  --neutral-500: #b4aa9a;
+  --neutral-600: #a39988;
+  --neutral-700: #8c8374;
+  --neutral-800: #756d60;
+  --neutral-900: #5e574c;
+  
+  --dark-50: #e9e8e7;
+  --dark-100: #c7c4c2;
+  --dark-200: #a5a09c;
+  --dark-300: #837c77;
+  --dark-400: #615851;
+  --dark-500: #40342c;
+  --dark-600: #362c25;
+  --dark-700: #2d241e;
+  --dark-800: #231c17;
+  --dark-900: #1a1410;
+  
+  --shadow-xs: 0 2px 4px rgba(0,0,0,0.02);
+  --shadow-sm: 0 4px 8px rgba(0,0,0,0.03);
+  --shadow-md: 0 8px 16px rgba(0,0,0,0.04);
+  --shadow-lg: 0 16px 32px rgba(0,0,0,0.05);
+  --shadow-xl: 0 32px 64px rgba(0,0,0,0.06);
+  
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+  
+  --font-primary: 'Space Grotesk', sans-serif;
+  --font-display: 'Clash Display', sans-serif;
+  --font-bold: 'Archivo Black', sans-serif;
+}
+
+
+/* ===== RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--neutral-50);
+  color: var(--dark-800);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ===== LOADER ===== */
+.loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--neutral-50);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+.loader-content {
+  text-align: center;
+}
+
+.loader-paw {
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+  border-radius: 50%;
+  position: relative;
+  animation: bounce 1s infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-paw i {
+  font-size: 60px;
+  color: white;
+}
+
+.loader-paw-print {
+  width: 100px;
+  height: 30px;
+  background: linear-gradient(135deg, var(--accent-400), var(--accent-500));
+  border-radius: 30px;
+  margin: 5px auto;
+  animation: pulse 1s infinite alternate;
+}
+
+.loader-text {
+  margin-top: 20px;
+  font-family: var(--font-bold);
+  font-size: 1.5rem;
+  color: var(--primary-600);
+  animation: slide 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+@keyframes slide {
+  from { transform: translateX(-10px); }
+  to { transform: translateX(10px); }
+}
+
+/* ===== ADVERTISEMENT BANNER ===== */
+.ad-banner {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+  padding: 40px 0;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.ad-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+  animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.ad-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.ad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.ad-content {
+  color: white;
+}
+
+.ad-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ad-tag-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-400);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.ad-title {
+  font-family: var(--font-bold);
+  font-size: 56px;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.ad-title-highlight {
+  color: var(--accent-400);
+  position: relative;
+  display: inline-block;
+}
+
+.ad-title-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: rgba(255, 123, 0, 0.2);
+  z-index: -1;
+  border-radius: var(--radius-full);
+}
+
+.ad-description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 30px;
+  max-width: 500px;
+}
+
+.ad-offer-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.ad-offer-item {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 15px 25px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ad-offer-icon {
+  width: 50px;
+  height: 50px;
+  background: var(--accent-400);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--dark-900);
+}
+
+.ad-offer-text h4 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: white;
+}
+
+.ad-offer-text p {
+  font-size: 14px;
+  opacity: 0.8;
+  color: white;
+}
+
+.ad-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  background: var(--accent-400);
+  color: var(--dark-900);
+  border: none;
+  padding: 18px 36px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ad-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.ad-cta:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.ad-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 30px rgba(255, 123, 0, 0.3);
+}
+
+.ad-visual {
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ad-visual-main {
+  position: relative;
+  width: 350px;
+  height: 350px;
+  background: linear-gradient(135deg, var(--accent-400), var(--primary-400));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+  animation: float 3s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.ad-visual-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.ad-visual-main:hover img {
+  transform: scale(1.1);
+}
+
+.ad-visual-main::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: spin 20s linear infinite;
+}
+
+.ad-visual-main::after {
+  content: '';
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.ad-visual-content {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.ad-visual-title {
+  font-family: var(--font-bold);
+  font-size: 28px;
+  line-height: 1;
+  background: rgba(0,0,0,0.5);
+  display: inline-block;
+  padding: 5px 20px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(5px);
+}
+
+.ad-floating-item {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: orbit 10s linear infinite;
+  overflow: hidden;
+}
+
+.ad-floating-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(180px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(180px) rotate(-360deg); }
+}
+
+.ad-floating-item:nth-child(1) { top: 20%; left: 10%; }
+.ad-floating-item:nth-child(2) { top: 60%; left: 80%; animation-delay: -2s; }
+.ad-floating-item:nth-child(3) { top: 30%; left: 70%; animation-delay: -4s; }
+
+/* ===== TRUST STRIP ===== */
+.trust-strip {
+  background: white;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--neutral-200);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.trust-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.trust-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  background: var(--neutral-100);
+  border-radius: var(--radius-full);
+  transition: all 0.3s ease;
+}
+
+.trust-chip:hover {
+  background: var(--neutral-200);
+  transform: translateY(-2px);
+}
+
+.trust-chip-icon {
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-600);
+  font-size: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.trust-chip-text {
+  font-weight: 500;
+  color: var(--dark-600);
+}
+
+.trust-chip-text small {
+  display: block;
+  font-size: 12px;
+  color: var(--neutral-600);
+  font-weight: 400;
+}
+
+/* ===== PETMART HEADER ===== */
+.petmart-header-section {
+  max-width: 1400px;
+  margin: 80px auto 40px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.petmart-header-left {
+  flex: 1;
+}
+
+.petmart-header-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-600);
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.petmart-header-label-line {
+  width: 40px;
+  height: 2px;
+  background: var(--primary-400);
+}
+
+.petmart-header-title {
+  font-family: var(--font-display);
+  font-size: 56px;
+  color: var(--dark-800);
+  line-height: 1.1;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.petmart-header-description {
+  color: var(--neutral-600);
+  font-size: 16px;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.petmart-header-description-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.petmart-header-description-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--neutral-400);
+  border-radius: 50%;
+}
+
+.petmart-header-right {
+  background: linear-gradient(135deg, var(--primary-50), var(--primary-100));
+  padding: 20px 30px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.delivery-time {
+  text-align: right;
+}
+
+.delivery-time-label {
+  font-size: 12px;
+  color: var(--neutral-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.delivery-time-value {
+  font-family: var(--font-bold);
+  font-size: 24px;
+  color: var(--primary-600);
+  line-height: 1;
+}
+
+.delivery-badge {
+  background: white;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-md);
+}
+
+.delivery-badge i {
+  color: var(--primary-600);
+  font-size: 18px;
+}
+
+.delivery-badge span {
+  font-weight: 600;
+  color: var(--dark-600);
+}
+
+/* ===== SEARCH SECTION ===== */
+.search-section {
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  padding: 0 40px;
+}
+
+.search-wrapper {
+  position: relative;
+  max-width: 400px;
+}
+
+.search-field {
+  width: 100%;
+  padding: 16px 20px 16px 50px;
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-full);
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+  font-family: var(--font-primary);
+}
+
+.search-field:focus {
+  outline: none;
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 4px var(--primary-100);
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neutral-500);
+  font-size: 18px;
+}
+
+/* ===== PET CATEGORY PILLS ===== */
+.category-section {
+  max-width: 1400px;
+  margin: 0 auto 50px;
+  padding: 0 40px;
+}
+
+.category-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px 0 20px;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.category-scroll::-webkit-scrollbar-track {
+  background: var(--neutral-200);
+  border-radius: var(--radius-full);
+}
+
+.category-scroll::-webkit-scrollbar-thumb {
+  background: var(--primary-400);
+  border-radius: var(--radius-full);
+}
+
+.category-pill {
+  padding: 14px 28px;
+  background: white;
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  color: var(--neutral-700);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-family: var(--font-primary);
+}
+
+.category-pill i {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.category-pill:hover {
+  border-color: var(--primary-400);
+  color: var(--primary-600);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.category-pill:hover i {
+  transform: scale(1.2);
+}
+
+.category-pill.active {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  border-color: var(--primary-600);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 102, 204, 0.3);
+}
+
+/* ===== PET PRODUCTS GRID ===== */
+.products-grid-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+.products-grid {
+  display: none;
+  animation: fadeScale 0.5s ease;
+}
+
+@keyframes fadeScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.products-grid.active {
+  display: block;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+/* ===== PRODUCT CARD WITH REAL IMAGES ===== */
+.product-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--neutral-200);
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-400), var(--accent-400));
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+  transform-origin: left;
+  z-index: 2;
+}
+
+.product-card:hover::before {
+  transform: scaleX(1);
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+}
+
+.product-card-media {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-card-media img {
+  transform: scale(1.1);
+}
+
+.product-card-bg-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 1;
+}
+
+.product-card-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: white;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  z-index: 3;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
+}
+
+.product-card-badge.accent {
+  background: linear-gradient(135deg, var(--accent-400), var(--accent-500));
+  color: var(--dark-900);
+}
+
+.product-card-badge.green {
+  background: linear-gradient(135deg, #2b8c5e, #1e6b48);
+}
+
+.product-card-pet-type {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 3;
+  box-shadow: var(--shadow-md);
+}
+
+.product-card-content {
+  padding: 24px;
+  position: relative;
+  background: white;
+}
+
+.product-card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark-800);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.product-card-desc {
+  color: var(--neutral-600);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 42px;
+}
+
+.product-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px dashed var(--neutral-200);
+  padding-top: 20px;
+}
+
+.product-card-price {
+  font-family: var(--font-bold);
+  font-size: 28px;
+  color: var(--primary-600);
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.product-card-price span {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--neutral-500);
+  font-family: var(--font-primary);
+}
+
+.product-card-weight {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background: var(--neutral-100);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--neutral-700);
+}
+
+.product-card-add {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 102, 204, 0.3);
+}
+
+.product-card-add::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+.product-card-add:hover::before {
+  width: 88px;
+  height: 88px;
+}
+
+.product-card-add:hover {
+  transform: scale(1.15) rotate(90deg);
+  box-shadow: 0 8px 25px rgba(0, 102, 204, 0.5);
+}
+
+.product-card-add.animate {
+  animation: cardAdd 0.3s ease;
+}
+
+@keyframes cardAdd {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* ===== SPECIAL OFFERS SECTION ===== */
+.offers-section {
+  max-width: 1400px;
+  margin: 80px auto;
+  padding: 0 40px;
+}
+
+.offers-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.offers-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  color: var(--dark-800);
+  position: relative;
+  display: inline-block;
+}
+
+.offers-title-decoration {
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-400), var(--accent-400));
+  border-radius: var(--radius-full);
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.offer-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--neutral-200);
+}
+
+.offer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-400), var(--accent-400));
+  transition: width 0.3s ease;
+}
+
+.offer-card:hover {
+  transform: translateX(10px) translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.offer-card:hover::before {
+  width: 8px;
+}
+
+.offer-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.offer-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.offer-card:hover .offer-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.offer-content {
+  flex: 1;
+}
+
+.offer-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark-800);
+  margin-bottom: 5px;
+}
+
+.offer-price {
+  font-family: var(--font-bold);
+  font-size: 24px;
+  color: var(--primary-600);
+}
+
+.offer-price small {
+  font-size: 14px;
+  color: var(--neutral-500);
+  font-weight: 400;
+  margin-left: 5px;
+}
+
+.offer-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--accent-400);
+  color: var(--dark-900);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== PET SERVICES SECTION ===== */
+.services-section {
+  max-width: 1400px;
+  margin: 80px auto;
+  padding: 0 40px;
+}
+
+.services-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.services-header h2 {
+  font-family: var(--font-display);
+  font-size: 40px;
+  color: var(--dark-800);
+  margin-bottom: 15px;
+}
+
+.services-header p {
+  color: var(--neutral-600);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.service-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  border: 1px solid var(--neutral-200);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-400), var(--accent-400));
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg);
+}
+
+.service-icon {
+  width: 90px;
+  height: 90px;
+  background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: var(--primary-600);
+  margin: 0 auto 25px;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1) rotate(5deg);
+  background: var(--primary-600);
+  color: white;
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: var(--dark-800);
+}
+
+.service-card p {
+  color: var(--neutral-600);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* ===== TESTIMONIALS SECTION ===== */
+.testimonials-section {
+  max-width: 1400px;
+  margin: 80px auto;
+  padding: 0 40px;
+}
+
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.testimonials-header h2 {
+  font-family: var(--font-display);
+  font-size: 40px;
+  color: var(--dark-800);
+  margin-bottom: 15px;
+}
+
+.testimonials-header p {
+  color: var(--neutral-600);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 30px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--neutral-200);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.testimonial-rating {
+  color: var(--accent-400);
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.testimonial-text {
+  color: var(--dark-600);
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 25px;
+  font-style: italic;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 1px solid var(--neutral-200);
+  padding-top: 20px;
+}
+
+.testimonial-author img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-author h5 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  margin-bottom: 2px;
+  color: var(--dark-800);
+}
+
+.testimonial-author p {
+  color: var(--neutral-600);
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+/* ===== FLOATING CART ===== */
+.cart-float {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background: linear-gradient(135deg, var(--dark-800), var(--dark-900));
+  color: white;
+  padding: 16px 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  cursor: pointer;
+  border: none;
+  z-index: 1000;
+  transform: translateY(150px);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.cart-float.show {
+  transform: translateY(0);
+  animation: cartBounce 0.5s ease;
+}
+
+@keyframes cartBounce {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.cart-float:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+}
+
+.cart-float-count {
+  background: linear-gradient(135deg, var(--accent-400), var(--accent-500));
+  color: var(--dark-900);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  animation: countPulse 2s infinite;
+}
+
+@keyframes countPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.cart-float-total {
+  font-family: var(--font-bold);
+  font-size: 20px;
+  background: rgba(255,255,255,0.1);
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+}
+
+/* ===== TOAST ===== */
+.toast-custom {
+  position: fixed;
+  bottom: 120px;
+  right: 40px;
+  background: linear-gradient(135deg, var(--dark-800), var(--dark-900));
+  color: white;
+  padding: 16px 28px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transform: translateY(150px);
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: 999;
+  border-left: 5px solid var(--accent-400);
+}
+
+.toast-custom.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  background: linear-gradient(135deg, var(--accent-400), var(--accent-500));
+  color: var(--dark-900);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  grid-column: 1 / -1;
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--dark-600);
+  margin-bottom: 10px;
+}
+
+.empty-state-text {
+  color: var(--neutral-600);
+}
+
+/* ===== MODAL ===== */
+.modal-custom {
+  background: white;
+  border-radius: var(--radius-xl);
+  border: none;
+  box-shadow: var(--shadow-xl);
+}
+
+.modal-custom .modal-header {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: white;
+  border: none;
+  padding: 20px 25px;
+}
+
+.modal-custom .modal-header .btn-close {
+  filter: brightness(0) invert(1);
+}
+
+.modal-custom .modal-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-custom .modal-body {
+  padding: 25px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.modal-custom .modal-footer {
+  padding: 20px 25px;
+  border-top: 2px solid var(--neutral-200);
+}
+
+.cart-item-custom {
+  background: var(--neutral-100);
+  padding: 15px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border: 1px solid var(--neutral-200);
+}
+
+.cart-item-custom:hover {
+  transform: translateX(5px);
+  background: white;
+  box-shadow: var(--shadow-md);
+}
+
+.cart-item-custom h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--dark-800);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  .items-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .ad-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .ad-content {
+    text-align: center;
+  }
+  
+  .ad-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .ad-offer-grid {
+    justify-content: center;
+  }
+  
+  .offers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .petmart-header-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .petmart-header-right {
+    width: 100%;
+  }
+  
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .offers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .petmart-header-title {
+    font-size: 40px;
+  }
+  
+  .trust-container {
+    justify-content: center;
+  }
+  
+  .cart-float {
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .ad-container,
+  .petmart-header-section,
+  .search-section,
+  .category-section,
+  .products-grid-container,
+  .offers-section,
+  .services-section,
+  .testimonials-section {
+    padding: 0 20px;
+  }
+  
+  .petmart-header-title {
+    font-size: 32px;
+  }
+  
+  .cart-float {
+    left: 20px;
+    right: 20px;
+    width: auto;
+    justify-content: center;
+  }
+}
+</style>
+
+<!-- Loader -->
+<div class="loader-wrapper" id="loader">
+  <div class="loader-content">
+    <div class="loader-paw">
+      <i class="bi bi-paw"></i>
+    </div>
+    <div class="loader-paw-print"></div>
+    <div class="loader-text">Petmart</div>
+  </div>
+</div>
+
+<!-- ADVERTISEMENT BANNER - Full Width at Top -->
+<div class="ad-banner">
+  <div class="ad-container">
+    <div class="ad-grid">
+      <div class="ad-content">
+        <div class="ad-tag">
+          <span class="ad-tag-dot"></span>
+          <span>LIMITED TIME OFFER</span>
+        </div>
+        
+        <h2 class="ad-title">
+          CARE FOR YOUR <span class="ad-title-highlight">FURRY FRIENDS</span>
+        </h2>
+        
+        <p class="ad-description">
+          Everything your pets need. Premium quality food, toys, accessories, 
+          and healthcare products — delivered with love to your door.
+        </p>
+        
+        <div class="ad-offer-grid">
+          <div class="ad-offer-item">
+            <div class="ad-offer-icon"><i class="bi bi-truck"></i></div>
+            <div class="ad-offer-text">
+              <h4>FREE DELIVERY</h4>
+              <p>On orders above ₹499</p>
+            </div>
+          </div>
+          <div class="ad-offer-item">
+            <div class="ad-offer-icon"><i class="bi bi-clock"></i></div>
+            <div class="ad-offer-text">
+              <h4>2 HOUR DELIVERY</h4>
+              <p>In select cities</p>
+            </div>
+          </div>
+        </div>
+        
+        <button class="ad-cta" onclick="scrollToProducts()">
+          <span>SHOP NOW</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+      
+      <div class="ad-visual">
+        <div class="ad-visual-main">
+          <img src="https://images.pexels.com/photos/2607544/pexels-photo-2607544.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Happy Pets">
+          <div class="ad-visual-content">
+            <div class="ad-visual-title">HAPPY PETS</div>
+          </div>
+        </div>
+        <div class="ad-floating-item">
+          <img src="https://tse1.mm.bing.net/th/id/OIP.8sC7wcoPShuK74MEbMH5CAHaE8?pid=Api&P=0&h=180" alt="Pet Food">
+        </div>
+        <div class="ad-floating-item">
+          <img src="https://breedingbusiness.com/wp-content/uploads/2021/07/dry-dog-food.jpg" alt="Pet Toy">
+        </div>
+        <div class="ad-floating-item">
+          <img src="https://koala.sh/api/image/v2-7jc5w-ozc97.jpg?width=1216&height=832&dream" alt="Pet Treat">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trust Strip -->
+<div class="trust-strip">
+  <div class="trust-container">
+    <div class="trust-chip">
+      <div class="trust-chip-icon"><i class="bi bi-truck"></i></div>
+      <div class="trust-chip-text">
+        Free delivery
+        <small>Over ₹499</small>
+      </div>
+    </div>
+    <div class="trust-chip">
+      <div class="trust-chip-icon"><i class="bi bi-clock"></i></div>
+      <div class="trust-chip-text">
+        2 hour delivery
+        <small>In select cities</small>
+      </div>
+    </div>
+    <div class="trust-chip">
+      <div class="trust-chip-icon"><i class="bi bi-shield-check"></i></div>
+      <div class="trust-chip-text">
+        Vet approved
+        <small>All products</small>
+      </div>
+    </div>
+    <div class="trust-chip">
+      <div class="trust-chip-icon"><i class="bi bi-credit-card"></i></div>
+      <div class="trust-chip-text">
+        Secure payment
+        <small>All methods</small>
+      </div>
+    </div>
+    <div class="trust-chip">
+      <div class="trust-chip-icon"><i class="bi bi-star-fill"></i></div>
+      <div class="trust-chip-text">
+        4.9 ★ rating
+        <small>50k+ reviews</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Petmart Header -->
+<div class="petmart-header-section">
+  <div class="petmart-header-left">
+    <div class="petmart-header-label">
+      <span class="petmart-header-label-line"></span>
+      <span>OUR COLLECTION</span>
+    </div>
+    <h2 class="petmart-header-title">PET PRODUCTS</h2>
+    <div class="petmart-header-description">
+      <span class="petmart-header-description-item">
+        <i class="bi bi-check-circle-fill" style="color: var(--primary-500);"></i>
+        Premium quality
+      </span>
+      <span class="petmart-header-description-dot"></span>
+      <span class="petmart-header-description-item">
+        <i class="bi bi-check-circle-fill" style="color: var(--primary-500);"></i>
+        Vet approved
+      </span>
+      <span class="petmart-header-description-dot"></span>
+      <span class="petmart-header-description-item">
+        <i class="bi bi-check-circle-fill" style="color: var(--primary-500);"></i>
+        Best prices
+      </span>
+    </div>
+  </div>
+  <div class="petmart-header-right">
+    <div class="delivery-time">
+      <div class="delivery-time-label">Est. delivery</div>
+      <div class="delivery-time-value">2 hours</div>
+    </div>
+    <div class="delivery-badge">
+      <i class="bi bi-geo-alt-fill"></i>
+      <span>DELIVERING NOW</span>
+    </div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-section">
+  <div class="search-wrapper">
+    <i class="bi bi-search search-icon"></i>
+    <input type="text" class="search-field" placeholder="Search food, toys, accessories..." onkeyup="searchItems(this.value)">
+  </div>
+</div>
+
+<!-- Pet Categories -->
+<div class="category-section">
+  <div class="category-scroll">
+    <button class="category-pill active" data-category="all">
+      <i class="bi bi-grid"></i> ALL PRODUCTS
+    </button>
+    <button class="category-pill" data-category="dogs">
+      <i class="bi bi-paw"></i> DOGS
+    </button>
+    <button class="category-pill" data-category="cats">
+      <i class="bi bi-paw"></i> CATS
+    </button>
+    <button class="category-pill" data-category="small">
+      <i class="bi bi-paw"></i> SMALL PETS
+    </button>
+    <button class="category-pill" data-category="food">
+      <i class="bi bi-cake"></i> FOOD
+    </button>
+    <button class="category-pill" data-category="toys">
+      <i class="bi bi-balloon"></i> TOYS
+    </button>
+    <button class="category-pill" data-category="accessories">
+      <i class="bi bi-bag"></i> ACCESSORIES
+    </button>
+    <button class="category-pill" data-category="health">
+      <i class="bi bi-heart"></i> HEALTHCARE
+    </button>
+    
+    {% for cat in list %}
+    <button class="category-pill" data-category="{{ cat.Categoryname|slugify }}">
+      <i class="bi bi-tag"></i> {{ cat.Categoryname|upper }}
+    </button>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Products Grids -->
+<div class="products-grid-container">
+  <!-- All Products Grid -->
+  <div class="products-grid active" id="grid-all">
+    <div class="items-grid" id="all-items"></div>
+  </div>
+  
+  <!-- Dogs Grid -->
+  <div class="products-grid" id="grid-dogs">
+    <div class="items-grid" id="dogs-items"></div>
+  </div>
+  
+  <!-- Cats Grid -->
+  <div class="products-grid" id="grid-cats">
+    <div class="items-grid" id="cats-items"></div>
+  </div>
+  
+  <!-- Birds Grid -->
+  <div class="products-grid" id="grid-birds">
+    <div class="items-grid" id="birds-items"></div>
+  </div>
+  
+  <!-- Fish Grid -->
+  <div class="products-grid" id="grid-fish">
+    <div class="items-grid" id="fish-items"></div>
+  </div>
+  
+  <!-- Small Pets Grid -->
+  <div class="products-grid" id="grid-small">
+    <div class="items-grid" id="small-items"></div>
+  </div>
+  
+  <!-- Food Grid -->
+  <div class="products-grid" id="grid-food">
+    <div class="items-grid" id="food-items"></div>
+  </div>
+  
+  <!-- Toys Grid -->
+  <div class="products-grid" id="grid-toys">
+    <div class="items-grid" id="toys-items"></div>
+  </div>
+  
+  <!-- Accessories Grid -->
+  <div class="products-grid" id="grid-accessories">
+    <div class="items-grid" id="accessories-items"></div>
+  </div>
+  
+  <!-- Health Grid -->
+  <div class="products-grid" id="grid-health">
+    <div class="items-grid" id="health-items"></div>
+  </div>
+  
+  <!-- Django Dynamic Category Grids -->
+  {% for cat in list %}
+  <div class="products-grid" id="grid-{{ cat.Categoryname|slugify }}">
+    <div class="items-grid">
+      {% for product in products %}
+        {% if product.Category == cat.Categoryname %}
+        <div class="product-card" data-product-id="{{ product.id }}">
+          <div class="product-card-media">
+            {% if product.Image %}
+              <img src="{{ product.Image.url }}" alt="{{ product.Productname }}">
+            {% else %}
+              <img src="https://images.pexels.com/photos/4587996/pexels-photo-4587996.jpeg?auto=compress&cs=tinysrgb&w=600" alt="{{ product.Productname }}">
+            {% endif %}
+            <div class="product-card-bg-pattern"></div>
+            {% if forloop.first %}
+            <span class="product-card-badge accent">POPULAR</span>
+            {% endif %}
+            <span class="product-card-pet-type">
+              {% if product.pet_type == "dog" %}🐕
+              {% elif product.pet_type == "cat" %}🐈
+              {% elif product.pet_type == "bird" %}🐦
+              {% elif product.pet_type == "fish" %}🐠
+              {% else %}🐾{% endif %}
+            </span>
+          </div>
+          <div class="product-card-content">
+            <h3 class="product-card-title">{{ product.Productname }}</h3>
+            <p class="product-card-desc">{{ product.description|truncatechars:60 }}</p>
+            <div class="product-card-footer">
+              <div class="product-card-price">
+                <span>₹</span>{{ product.Price }}
+              </div>
+              <button class="product-card-add" onclick="addToCart({{ product.id }}, '{{ product.Productname|escapejs }}', {{ product.Price }})">
+                <i class="bi bi-plus"></i>
+              </button>
+            </div>
+            {% if product.weight %}
+            <span class="product-card-weight">{{ product.weight }} kg</span>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- Services Section -->
+<section class="services-section">
+  <div class="services-header">
+    <h2>PET SERVICES</h2>
+    <p>Professional care for your furry family members</p>
+  </div>
+  
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-scissors"></i></div>
+      <h3>Grooming</h3>
+      <p>Professional grooming services including bathing, haircut, and nail trimming</p>
+    </div>
+    
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-heart-pulse"></i></div>
+      <h3>Vet Care</h3>
+      <p>Expert veterinary consultations and healthcare services</p>
+    </div>
+    
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-house-heart"></i></div>
+      <h3>Boarding</h3>
+      <p>Safe and comfortable boarding facilities when you're away</p>
+    </div>
+    
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-cup"></i></div>
+      <h3>Training</h3>
+      <p>Professional training sessions for behavior and obedience</p>
+    </div>
+  </div>
+</section>
+
+<!-- Special Offers Section -->
+<section class="offers-section">
+  <div class="offers-header">
+    <h3 class="offers-title">
+      SPECIAL OFFERS
+      <span class="offers-title-decoration"></span>
+    </h3>
+    <span style="color: var(--neutral-500);">Limited time deals</span>
+  </div>
+  
+  <div class="offers-grid">
+    <div class="offer-card">
+      <div class="offer-icon">
+        <img src="https://images.pexels.com/photos/4587996/pexels-photo-4587996.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Dog Food">
+      </div>
+      <div class="offer-content">
+        <div class="offer-name">Premium Dog Food</div>
+        <div class="offer-price">₹899 <small>save ₹200</small></div>
+      </div>
+      <span class="offer-badge">-18%</span>
+    </div>
+    
+    <div class="offer-card">
+      <div class="offer-icon">
+        <img src="https://images.pexels.com/photos/4587959/pexels-photo-4587959.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Cat Toy">
+      </div>
+      <div class="offer-content">
+        <div class="offer-name">Cat Toy Bundle</div>
+        <div class="offer-price">₹449 <small>save ₹150</small></div>
+      </div>
+      <span class="offer-badge">-25%</span>
+    </div>
+    
+    <div class="offer-card">
+      <div class="offer-icon">
+        <img src="https://images.pexels.com/photos/6845994/pexels-photo-6845994.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pet Treats">
+      </div>
+      <div class="offer-content">
+        <div class="offer-name">Natural Treats</div>
+        <div class="offer-price">₹299 <small>buy 2 get 1</small></div>
+      </div>
+      <span class="offer-badge">BOGO</span>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+  <div class="testimonials-header">
+    <h2>HAPPY PET PARENTS</h2>
+    <p>What our customers say about us</p>
+  </div>
+  
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-rating">
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+      </div>
+      <p class="testimonial-text">"My Labrador absolutely loves the food from Petmart! Great quality and fast delivery. Highly recommended!"</p>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya">
+        <div>
+          <h5>Priya Sharma</h5>
+          <p>Dog Parent</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="testimonial-card">
+      <div class="testimonial-rating">
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+      </div>
+      <p class="testimonial-text">"The toys are durable and my cats go crazy for them! Excellent customer service and quick delivery."</p>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul">
+        <div>
+          <h5>Rahul Mehta</h5>
+          <p>Cat Parent</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="testimonial-card">
+      <div class="testimonial-rating">
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+      </div>
+      <p class="testimonial-text">"Great products at reasonable prices. My parrot loves the bird food. Will definitely shop again!"</p>
+      <div class="testimonial-author">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anita">
+        <div>
+          <h5>Anita Desai</h5>
+          <p>Bird Parent</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Floating Cart -->
+<button class="cart-float" id="floatCart" onclick="viewCart()">
+  <i class="bi bi-cart"></i>
+  <span class="cart-float-count" id="cartCount">0</span>
+  <span class="cart-float-total" id="cartTotal">₹0</span>
+</button>
+
+<!-- Toast -->
+<div class="toast-custom" id="toastMessage">
+  <span class="toast-icon">✓</span>
+  <span id="toastText">Item added to cart</span>
+</div>
+
+<script>
+// Hide loader after page load
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('loader').style.opacity = '0';
+    setTimeout(function() {
+      document.getElementById('loader').style.display = 'none';
+    }, 600);
+  }, 1000);
+});
+
+// Product images from Pexels
+const productImages = {
+  // Dog Products
+  'Premium Dog Food': 'https://nypost.com/wp-content/uploads/sites/2/2022/10/94053_MAIN._AC_SL1200_V159560615.jpg?quality=75&strip=all&w=1535',
+  'Dog Chew Toy': 'https://m.media-amazon.com/images/I/618aYF5QntL._SX522_.jpg',
+  'Dog Bed': 'https://m.media-amazon.com/images/I/81xbOFs7u4L._AC_SL1500_.jpg',
+  'Dog Treats': 'https://m.media-amazon.com/images/I/71ixTSHchSL._SL1500_.jpg',
+  'Dog Collar': 'https://m.media-amazon.com/images/I/71UUGsmg09L._AC_SL1500_.jpg',
+  
+  // Cat Products
+  'Cat Food': 'https://m.media-amazon.com/images/I/61Jvs-5qikL._SL1080_.jpg',
+  'Cat Toy': 'https://m.media-amazon.com/images/I/61DyNHPBe9L._SL1000_.jpg',
+  'Cat Litter': 'https://m.media-amazon.com/images/I/61x0MOyBV4L._SL1080_.jpg',
+  'Cat Scratcher': 'https://th.bing.com/th/id/OIP.DMcIdQtBNAmVSgPfgZvNzAHaDt?w=330&h=175&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3',
+  'Cat Bed': 'https://th.bing.com/th/id/OIP.vvxDlsIOYsEIc5L88WtFxwHaGI?w=181&h=150&c=6&o=7&dpr=1.3&pid=1.7&rm=3',
+  
+  // Bird Products
+  'Bird Food': 'https://images.pexels.com/photos/4587996/pexels-photo-4587996.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Bird Cage': 'https://images.pexels.com/photos/4587959/pexels-photo-4587959.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Bird Toy': 'https://images.pexels.com/photos/6845994/pexels-photo-6845994.jpeg?auto=compress&cs=tinysrgb&w=600',
+  
+  // Fish Products
+  'Fish Food': 'https://images.pexels.com/photos/4587996/pexels-photo-4587996.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Aquarium': 'https://images.pexels.com/photos/4587959/pexels-photo-4587959.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Fish Tank Decor': 'https://images.pexels.com/photos/6845994/pexels-photo-6845994.jpeg?auto=compress&cs=tinysrgb&w=600',
+  
+  // Small Pet Products
+  'Hamster Food': 'https://images.pexels.com/photos/4587996/pexels-photo-4587996.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Hamster Cage': 'https://images.pexels.com/photos/4587959/pexels-photo-4587959.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Hamster Wheel': 'https://images.pexels.com/photos/6845994/pexels-photo-6845994.jpeg?auto=compress&cs=tinysrgb&w=600',
+  
+  // Health Products
+  'Flea Treatment': 'https://images.pexels.com/photos/4587996/pexels-photo-4587996.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Vitamins': 'https://images.pexels.com/photos/4587959/pexels-photo-4587959.jpeg?auto=compress&cs=tinysrgb&w=600',
+  'Shampoo': 'https://image.made-in-china.com/2f0j00tgfqmusIJVpi/Natural-Ingredients-Deep-Cleanser-Pet-Shampoo-Relieving-Dry-Itchy-Skin-Dog-Shampoo.jpg'
+};
+
+// Product data
+const products = [
+  // Dog Products
+  { id: 1, name: 'Premium Dog Food', category: 'dogs', subcategory: 'food', price: 1000, desc: 'High-protein nutrition for active dogs', badge: 'Bestseller', image: productImages['Premium Dog Food'], weight: '5', petType: 'dog', rating: 4.9 },
+  { id: 2, name: 'Dog Chew Toy', category: 'dogs', subcategory: 'toys', price: 349, desc: 'Durable rubber toy for aggressive chewers', badge: 'Popular', image: productImages['Dog Chew Toy'], weight: '0.5', petType: 'dog', rating: 4.7 },
+  { id: 3, name: 'Luxury Dog Bed', category: 'dogs', subcategory: 'accessories', price: 1499, desc: 'Orthopedic memory foam bed', badge: 'Premium', image: productImages['Dog Bed'], weight: '3', petType: 'dog', rating: 4.8 },
+  { id: 4, name: 'Natural Dog Treats', category: 'dogs', subcategory: 'food', price: 249, desc: 'Grain-free, all-natural ingredients', badge: 'New', image: productImages['Dog Treats'], weight: '0.5', petType: 'dog', rating: 4.6 },
+  { id: 5, name: 'medikit', category: 'dogs', subcategory: 'accessories', price: 399, desc: 'Nylon collar with quick-release buckle', badge: '', image: productImages['Dog Collar'], weight: '0.2', petType: 'dog', rating: 4.5 },
+  
+  // Cat Products
+  { id: 6, name: 'Premium Cat Food', category: 'cats', subcategory: 'food', price: 799, desc: 'Complete nutrition for indoor cats', badge: 'Bestseller', image: productImages['Cat Food'], weight: '4', petType: 'cat', rating: 4.8 },
+  { id: 7, name: 'Interactive Cat Toy', category: 'cats', subcategory: 'toys', price: 299, desc: 'Feather wand with bell', badge: 'Popular', image: productImages['Cat Toy'], weight: '0.1', petType: 'cat', rating: 4.9 },
+  { id: 8, name: 'Clumping Cat Litter', category: 'cats', subcategory: 'accessories', price: 449, desc: 'Odor control, 99% dust-free', badge: '', image: productImages['Cat Litter'], weight: '5', petType: 'cat', rating: 4.7 },
+  { id: 9, name: 'Cat Scratching Post', category: 'cats', subcategory: 'accessories', price: 899, desc: 'Sisal rope scratching post', badge: 'New', image: productImages['Cat Scratcher'], weight: '2', petType: 'cat', rating: 4.6 },
+  { id: 10, name: 'Cat Bed Cave', category: 'cats', subcategory: 'accessories', price: 999, desc: 'Soft plush cave bed for cats', badge: '', image: productImages['Cat Bed'], weight: '1', petType: 'cat', rating: 4.8 },
+  
+  // Bird Products
+  { id: 11, name: 'Parrot Food Mix', category: 'birds', subcategory: 'food', price: 399, desc: 'Nutritious seed mix for parrots', badge: '', image: productImages['Bird Food'], weight: '2', petType: 'bird', rating: 4.6 },
+  { id: 12, name: 'Large Bird Cage', category: 'birds', subcategory: 'accessories', price: 2999, desc: 'Spacious cage with perches', badge: 'Premium', image: productImages['Bird Cage'], weight: '8', petType: 'bird', rating: 4.7 },
+  { id: 13, name: 'Bird Swing Toy', category: 'birds', subcategory: 'toys', price: 199, desc: 'Wooden swing with bell', badge: 'Popular', image: productImages['Bird Toy'], weight: '0.3', petType: 'bird', rating: 4.5 },
+  
+  // Fish Products
+  { id: 14, name: 'Fish Flakes Food', category: 'fish', subcategory: 'food', price: 149, desc: 'Balanced nutrition for tropical fish', badge: '', image: productImages['Fish Food'], weight: '0.1', petType: 'fish', rating: 4.6 },
+  { id: 15, name: '10-Gallon Aquarium', category: 'fish', subcategory: 'accessories', price: 1999, desc: 'Glass tank with LED light', badge: 'New', image: productImages['Aquarium'], weight: '12', petType: 'fish', rating: 4.8 },
+  { id: 16, name: 'Aquarium Decor Set', category: 'fish', subcategory: 'accessories', price: 499, desc: 'Plastic plants and castle', badge: '', image: productImages['Fish Tank Decor'], weight: '1', petType: 'fish', rating: 4.5 },
+  
+  // Small Pet Products
+  { id: 17, name: 'Hamster Food Mix', category: 'small', subcategory: 'food', price: 199, desc: 'Seed mix for hamsters and gerbils', badge: '', image: productImages['Hamster Food'], weight: '1', petType: 'small', rating: 4.6 },
+  { id: 18, name: 'Hamster Cage', category: 'small', subcategory: 'accessories', price: 1299, desc: 'Multi-level cage with tubes', badge: 'Popular', image: productImages['Hamster Cage'], weight: '5', petType: 'small', rating: 4.7 },
+  { id: 19, name: 'Exercise Wheel', category: 'small', subcategory: 'toys', price: 299, desc: 'Silent running wheel', badge: '', image: productImages['Hamster Wheel'], weight: '0.5', petType: 'small', rating: 4.8 },
+  
+  // Health Products
+  { id: 20, name: 'Flea & Tick Treatment', category: 'health', subcategory: 'health', price: 599, desc: 'Spot-on treatment for dogs', badge: 'Vet Rec', image: productImages['Flea Treatment'], weight: '0.1', petType: 'dog', rating: 4.9 },
+  { id: 21, name: 'Multivitamin Chews', category: 'health', subcategory: 'health', price: 449, desc: 'Daily health supplement for dogs', badge: 'New', image: productImages['Vitamins'], weight: '0.3', petType: 'dog', rating: 4.7 },
+  { id: 22, name: 'Pet Shampoo', category: 'health', subcategory: 'health', price: 299, desc: 'Gentle oatmeal shampoo', badge: '', image: productImages['Shampoo'], weight: '0.5', petType: 'all', rating: 4.6 }
+];
+
+// Cart
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let toastTimeout;
+
+// Render products
+function renderProducts() {
+  const categories = {
+    all: products,
+    dogs: products.filter(p => p.category === 'dogs'),
+    cats: products.filter(p => p.category === 'cats'),
+    birds: products.filter(p => p.category === 'birds'),
+    fish: products.filter(p => p.category === 'fish'),
+    small: products.filter(p => p.category === 'small'),
+    food: products.filter(p => p.subcategory === 'food'),
+    toys: products.filter(p => p.subcategory === 'toys'),
+    accessories: products.filter(p => p.subcategory === 'accessories'),
+    health: products.filter(p => p.subcategory === 'health')
+  };
+
+  for (let [category, items] of Object.entries(categories)) {
+    const container = document.getElementById(`${category}-items`);
+    if (container) {
+      if (items.length === 0) {
+        container.innerHTML = `<div class="empty-state"><p>No products found</p></div>`;
+      } else {
+        container.innerHTML = items.map(product => {
+          const escapedName = product.name.replace(/'/g, "\\'");
+          const petTypeIcon = {
+            dog: '🐕', cat: '🐈', small: '🐹', all: '🐾'
+          }[product.petType] || '🐾';
+          
+          return `
+          <div class="product-card" data-product-id="${product.id}">
+            <div class="product-card-media">
+              <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400/0066cc/FFFFFF?text=${product.name}'">
+              <div class="product-card-bg-pattern"></div>
+              ${product.badge ? `<span class="product-card-badge ${product.badge === 'Premium' ? 'accent' : ''}">${product.badge}</span>` : ''}
+              <span class="product-card-pet-type">${petTypeIcon}</span>
+            </div>
+            <div class="product-card-content">
+              <h3 class="product-card-title">${product.name}</h3>
+              <p class="product-card-desc">${product.desc}</p>
+              <div class="product-card-footer">
+                <div class="product-card-price">
+                  <span>₹</span>${product.price}
+                </div>
+                <button class="product-card-add" onclick="addToCart(${product.id}, '${escapedName}', ${product.price})">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+              <span class="product-card-weight">${product.weight} kg</span>
+            </div>
+          </div>
+        `}).join('');
+      }
+    }
+  }
+}
+
+// Filter functionality
+document.querySelectorAll('.category-pill').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.products-grid').forEach(g => g.classList.remove('active'));
+    
+    this.classList.add('active');
+    const category = this.dataset.category;
+    const targetGrid = document.getElementById(`grid-${category}`);
+    if (targetGrid) {
+      targetGrid.classList.add('active');
+    }
+  });
+});
+
+// Cart functions
+function addToCart(id, name, price) {
+  const existingItem = cart.find(item => item.id === id);
+  
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({ id, name, price, quantity: 1 });
+  }
+  
+  updateCart();
+  showToast(`${name} added to cart!`);
+  
+  const buttons = document.querySelectorAll(`[onclick*="addToCart(${id},"]`);
+  buttons.forEach(button => {
+    if (button.classList.contains('product-card-add')) {
+      button.classList.add('animate');
+      setTimeout(() => button.classList.remove('animate'), 300);
+    }
+  });
+  
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function updateCart() {
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  document.getElementById('cartCount').textContent = count;
+  document.getElementById('cartTotal').textContent = `₹${total}`;
+  
+  const floatCart = document.getElementById('floatCart');
+  if (count > 0) {
+    floatCart.classList.add('show');
+  } else {
+    floatCart.classList.remove('show');
+  }
+}
+
+function showToast(message) {
+  const toast = document.getElementById('toastMessage');
+  const toastText = document.getElementById('toastText');
+  
+  toastText.textContent = message;
+  toast.classList.add('show');
+  
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+}
+
+function viewCart() {
+  if (cart.length === 0) {
+    showToast('Your cart is empty');
+    return;
+  }
+  
+  let itemsHtml = '';
+  let total = 0;
+  
+  cart.forEach(item => {
+    total += item.price * item.quantity;
+    itemsHtml += `
+      <div class="cart-item-custom">
+        <div>
+          <h6>${item.name}</h6>
+          <small class="text-muted">₹${item.price} × ${item.quantity}</small>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span class="fw-bold" style="color: var(--primary-600);">₹${item.price * item.quantity}</span>
+          <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  
+  const modalHTML = `
+    <div class="modal fade" id="cartModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-custom">
+          <div class="modal-header">
+            <h5 class="modal-title"><i class="bi bi-cart"></i> Your Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">${itemsHtml}</div>
+          <div class="modal-footer">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <h5 class="mb-0">Total: <span style="color: var(--primary-600);">₹${total}</span></h5>
+              <div>
+                <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Continue Shopping</button>
+                <button type="button" class="btn" style="background: var(--primary-600); color: white;" onclick="checkout()">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  const existingModal = document.getElementById('cartModal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  const modal = new bootstrap.Modal(document.getElementById('cartModal'));
+  modal.show();
+  
+  document.getElementById('cartModal').addEventListener('hidden.bs.modal', function() {
+    this.remove();
+  });
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.id !== id);
+  updateCart();
+  localStorage.setItem('cart', JSON.stringify(cart));
+  
+  const modal = document.getElementById('cartModal');
+  if (modal) {
+    if (cart.length === 0) {
+      modal.querySelector('.modal-body').innerHTML = '<p class="text-center py-4">Your cart is empty</p>';
+      modal.querySelector('.modal-footer').style.display = 'none';
+    } else {
+      modal.querySelector('.modal-footer').style.display = 'flex';
+      let total = 0;
+      const itemsHtml = cart.map(item => {
+        total += item.price * item.quantity;
+        return `
+          <div class="cart-item-custom">
+            <div>
+              <h6>${item.name}</h6>
+              <small class="text-muted">₹${item.price} × ${item.quantity}</small>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <span class="fw-bold" style="color: var(--primary-600);">₹${item.price * item.quantity}</span>
+              <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${item.id})">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      modal.querySelector('.modal-body').innerHTML = itemsHtml;
+      modal.querySelector('.modal-footer h5 span').textContent = `₹${total}`;
+    }
+  }
+}
+
+function checkout() {
+  showToast('Proceeding to checkout...');
+  setTimeout(() => {
+    window.location.href = '/checkout/';
+  }, 1500);
+}
+
+function scrollToProducts() {
+  document.querySelector('.petmart-header-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function searchItems(query) {
+  if (!query.trim()) {
+    renderProducts();
+    return;
+  }
+  
+  const searchTerm = query.toLowerCase().trim();
+  const results = products.filter(product => 
+    product.name.toLowerCase().includes(searchTerm) || 
+    product.desc.toLowerCase().includes(searchTerm) ||
+    product.category.toLowerCase().includes(searchTerm) ||
+    product.subcategory.toLowerCase().includes(searchTerm)
+  );
+  
+  document.querySelectorAll('.category-pill').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-category="all"]').classList.add('active');
+  document.querySelectorAll('.products-grid').forEach(g => g.classList.remove('active'));
+  document.getElementById('grid-all').classList.add('active');
+  
+  const container = document.getElementById('all-items');
+  
+  if (results.length > 0) {
+    container.innerHTML = results.map(product => {
+      const escapedName = product.name.replace(/'/g, "\\'");
+      const petTypeIcon = {
+        dog: '🐕', cat: '🐈', bird: '🐦', fish: '🐠', small: '🐹', all: '🐾'
+      }[product.petType] || '🐾';
+      
+      return `
+      <div class="product-card" data-product-id="${product.id}">
+        <div class="product-card-media">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400/0066cc/FFFFFF?text=${product.name}'">
+          <div class="product-card-bg-pattern"></div>
+          ${product.badge ? `<span class="product-card-badge ${product.badge === 'Premium' ? 'accent' : ''}">${product.badge}</span>` : ''}
+          <span class="product-card-pet-type">${petTypeIcon}</span>
+        </div>
+        <div class="product-card-content">
+          <h3 class="product-card-title">${product.name}</h3>
+          <p class="product-card-desc">${product.desc}</p>
+          <div class="product-card-footer">
+            <div class="product-card-price">
+              <span>₹</span>${product.price}
+            </div>
+            <button class="product-card-add" onclick="addToCart(${product.id}, '${escapedName}', ${product.price})">
+              <i class="bi bi-plus"></i>
+            </button>
+          </div>
+          <span class="product-card-weight">${product.weight} kg</span>
+        </div>
+      </div>
+    `}).join('');
+  } else {
+    container.innerHTML = `<div class="empty-state"><p>No products found</p></div>`;
+  }
+}
+
+// Initialize
+renderProducts();
+updateCart();
+
+// Make functions global
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.viewCart = viewCart;
+window.checkout = checkout;
+window.scrollToProducts = scrollToProducts;
+window.searchItems = searchItems;
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Bookings - McDonald's{% endblock %}
+
+{% block main %}
+<style>
+    .bookings-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #fff9f9, #ffffff);
+        min-height: calc(100vh - 200px);
+    }
+
+    .bookings-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .bookings-header h1 {
+        font-family: 'Archivo Black', sans-serif;
+        color: #DA291C;
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+    }
+
+    .booking-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .booking-header {
+        background: #DA291C;
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .booking-body {
+        padding: 20px;
+    }
+
+    .booking-detail {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .booking-detail:last-child {
+        border-bottom: none;
+    }
+
+    .label {
+        color: #666;
+        font-weight: 500;
+    }
+
+    .value {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .status-badge {
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .status-confirmed {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .status-cancelled {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .status-completed {
+        background: #cce5ff;
+        color: #004085;
+    }
+
+    .no-bookings {
+        text-align: center;
+        padding: 60px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .no-bookings i {
+        font-size: 60px;
+        color: #DA291C;
+        margin-bottom: 20px;
+    }
+
+    .btn-book {
+        display: inline-block;
+        padding: 12px 30px;
+        background: #DA291C;
+        color: white;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 20px;
+    }
+
+    .btn-book:hover {
+        background: #B51F15;
+        color: white;
+    }
+</style>
+
+<section class="bookings-section">
+    <div class="container">
+        <div class="bookings-header">
+            <h1><i class="bi bi-calendar-check"></i> My Table Bookings</h1>
+            <p>View all your restaurant reservations</p>
+        </div>
+
+        {% if bookings %}
+            {% for booking in bookings %}
+            <div class="booking-card">
+                <div class="booking-header">
+                    <span><i class="bi bi-receipt"></i> Booking #{{ booking.id }}</span>
+                    <span class="status-badge status-{{ booking.status }}">
+                        {% if booking.status == 'confirmed' %}
+                            <i class="bi bi-check-circle"></i> Confirmed
+                        {% elif booking.status == 'pending' %}
+                            <i class="bi bi-clock"></i> Pending
+                        {% elif booking.status == 'cancelled' %}
+                            <i class="bi bi-x-circle"></i> Cancelled
+                        {% elif booking.status == 'completed' %}
+                            <i class="bi bi-check-circle-fill"></i> Completed
+                        {% else %}
+                            {{ booking.status|title }}
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="booking-body">
+                    <div class="booking-detail">
+                        <span class="label">Date:</span>
+                        <span class="value">{{ booking.booking_date|date:"l, F j, Y" }}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="label">Time:</span>
+                        <span class="value">{{ booking.booking_time|time:"g:i A" }}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="label">Guests:</span>
+                        <span class="value">{{ booking.guests }} People</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="label">Name:</span>
+                        <span class="value">{{ booking.name }}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="label">Phone:</span>
+                        <span class="value">{{ booking.phone }}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="label">Email:</span>
+                        <span class="value">{{ booking.email }}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="label">Booked on:</span>
+                        <span class="value">{{ booking.created_at|date:"d M Y, h:i A" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-bookings">
+                <i class="bi bi-calendar-x"></i>
+                <h3>No Bookings Found</h3>
+                <p>You haven't made any table reservations yet.</p>
+                <a href="{% url 'book_table' %}" class="btn-book">
+                    <i class="bi bi-calendar-plus"></i> Book a Table Now
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

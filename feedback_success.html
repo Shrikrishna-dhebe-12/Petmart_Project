@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Feedback Submitted - Petmart India{% endblock %}
+
+{% block main %}
+
+<style>
+    :root {
+        --petmart-blue: #4A90E2;
+        --petmart-blue-dark: #3A7BC8;
+        --petmart-blue-light: #7BB0F0;
+        --petmart-orange: #FF9F4B;
+        --petmart-green: #4CAF50;
+        --dark: #272321;
+        --muted: #6B6B6B;
+    }
+
+    .success-container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(74,144,226,0.15);
+        text-align: center;
+        border: 1px solid rgba(74,144,226,0.1);
+    }
+    
+    .success-icon {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, var(--petmart-blue), var(--petmart-blue-dark));
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        margin: 0 auto 30px;
+        animation: scaleUp 0.5s ease;
+        box-shadow: 0 10px 20px rgba(74,144,226,0.3);
+    }
+    
+    @keyframes scaleUp {
+        0% { transform: scale(0); }
+        70% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    h1 {
+        font-family: 'Archivo Black', sans-serif;
+        background: linear-gradient(135deg, var(--petmart-blue), var(--petmart-blue-dark));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 15px;
+    }
+    
+    .message-box {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+        text-align: left;
+        border: 1px solid rgba(74,144,226,0.1);
+    }
+    
+    .thank-you {
+        font-size: 1.2rem;
+        color: var(--dark);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .feedback-note {
+        background: #E6F0FF;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 4px solid var(--petmart-blue);
+        margin: 20px 0;
+    }
+    
+    .feedback-note i {
+        color: var(--petmart-orange);
+        font-size: 1.2rem;
+    }
+    
+    .buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+    
+    .btn-home {
+        background: linear-gradient(135deg, var(--petmart-blue), var(--petmart-blue-dark));
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(74,144,226,0.3);
+    }
+    
+    .btn-products {
+        background: var(--petmart-orange);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-home:hover, .btn-products:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(74,144,226,0.4);
+    }
+    
+    .btn-products:hover {
+        background: #f08c32;
+        box-shadow: 0 8px 20px rgba(255,159,75,0.4);
+    }
+    
+    .social-share {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #E6F0FF;
+    }
+    
+    .social-icons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        background: #E6F0FF;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--petmart-blue);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        background: var(--petmart-blue);
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .pet-icon {
+        font-size: 2rem;
+        margin: 0 5px;
+        animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    .paw-prints {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        margin: 20px 0;
+        color: var(--petmart-blue-light);
+        opacity: 0.5;
+    }
+    
+    .paw-prints i {
+        font-size: 1.2rem;
+    }
+</style>
+
+<section class="success-section">
+    <div class="container">
+        <div class="success-container">
+            <div class="success-icon">
+                <i class="bi bi-check-lg"></i>
+            </div>
+            
+            <div class="paw-prints">
+                <i class="bi bi-paw"></i>
+                <i class="bi bi-paw"></i>
+                <i class="bi bi-paw"></i>
+                <i class="bi bi-paw"></i>
+                <i class="bi bi-paw"></i>
+            </div>
+            
+            <h1>Thank You!</h1>
+            <p style="color: var(--muted); font-size: 1.2rem;">Your feedback has been submitted successfully</p>
+            
+            <div class="message-box">
+                <div class="thank-you">
+                    <i class="bi bi-chat-heart-fill" style="color: var(--petmart-blue);"></i>
+                    <span>We appreciate you taking the time to share your experience</span>
+                </div>
+                
+                <div class="feedback-note">
+                    <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                        <i class="bi bi-star-fill"></i>
+                    </div>
+                    <p style="margin-top: 10px; color: var(--dark);">
+                        Your feedback helps us serve your pets better and improve our products and services every day.
+                    </p>
+                </div>
+                
+                <p style="margin-top: 20px; color: var(--muted);">
+                    We'll review your feedback and use it to make your next visit even better for you and your furry friend!
+                </p>
+                
+                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+                    <span class="pet-icon">🐕</span>
+                    <span class="pet-icon">🐈</span>
+                    <span class="pet-icon">🐦</span>
+                    <span class="pet-icon">🐇</span>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <a href="{% url 'home' %}" class="btn-home">
+                    <i class="bi bi-house-door"></i> Back to Home
+                </a>
+                <a href="{% url 'menu' %}" class="btn-products">
+                    <i class="bi bi-bag-heart"></i> Shop Products
+                </a>
+            </div>
+            
+            <div class="social-share">
+                <p style="color: var(--muted);">Share your experience with friends:</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; font-size: 0.9rem; color: var(--muted);">
+                <i class="bi bi-paw-fill" style="color: var(--petmart-blue);"></i> 
+                From all of us at Petmart, thank you for being a part of our pet-loving family!
+                <i class="bi bi-paw-fill" style="color: var(--petmart-blue);"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

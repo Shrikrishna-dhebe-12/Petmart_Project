@@ -1,0 +1,884 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}McDonald's India - Checkout{% endblock %}
+{% block checkout_status %}active{% endblock %}
+
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McDonald's - Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --mcd-blue: #1E88E5;
+            --mcd-blue-dark: #0D47A1;
+            --mcd-blue-soft: #E3F2FD;
+            --mcd-sky: #42A5F5;
+            --mcd-sky-soft: #BBDEFB;
+            --mcd-black: #272321;
+            --mcd-black-soft: #5E5A56;
+            --mcd-white: #FFFFFF;
+            --mcd-offwhite: #F0F8FF;
+            --mcd-gray-soft: #F5F5F5;
+            
+            --gradient-blue: linear-gradient(135deg, #1E88E5, #0D47A1);
+            --shadow-lg: 0 15px 25px rgba(30,136,229,0.15);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+            --radius-full: 9999px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff, #ffffff, #e6f3ff);
+            color: var(--mcd-black);
+            min-height: 100vh;
+        }
+
+        .checkout-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .checkout-header h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.5rem;
+            color: var(--mcd-black);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .checkout-header h1 span {
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .checkout-header p {
+            color: var(--mcd-black-soft);
+            font-size: 1.1rem;
+        }
+
+        /* Progress Bar */
+        .checkout-progress {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .progress-step:not(:last-child) {
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid var(--mcd-gray-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--mcd-black-soft);
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .step-circle.active {
+            background: var(--gradient-blue);
+            border-color: var(--mcd-blue);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-circle.completed {
+            background: var(--mcd-sky);
+            border-color: var(--mcd-sky);
+            color: var(--mcd-black);
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--mcd-black-soft);
+        }
+
+        .step-label.active {
+            color: var(--mcd-blue);
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--mcd-gray-soft);
+            z-index: 1;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            background: var(--gradient-blue);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+        }
+
+        /* Cart Items Section */
+        .cart-section, .delivery-section, .payment-section {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+            border: 1px solid rgba(30,136,229,0.05);
+        }
+
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--mcd-gray-soft);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--mcd-blue);
+            font-size: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--mcd-gray-soft);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 2;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--mcd-black);
+        }
+
+        .item-price {
+            color: var(--mcd-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 20px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--mcd-gray-soft);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: var(--mcd-blue);
+            color: white;
+            border-color: var(--mcd-blue);
+        }
+
+        .quantity-value {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .item-total {
+            font-weight: 700;
+            color: var(--mcd-blue);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .remove-item {
+            color: var(--mcd-black-soft);
+            cursor: pointer;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .remove-item:hover {
+            color: var(--mcd-blue);
+        }
+
+        /* Delivery Form */
+        .delivery-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .delivery-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--mcd-black-soft);
+        }
+
+        .delivery-form input, 
+        .delivery-form select, 
+        .delivery-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--mcd-gray-soft);
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .delivery-form input:focus, 
+        .delivery-form select:focus, 
+        .delivery-form textarea:focus {
+            border-color: var(--mcd-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(30,136,229,0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .payment-method {
+            position: relative;
+        }
+
+        .payment-method input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .payment-method label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid var(--mcd-gray-soft);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method input[type="radio"]:checked + label {
+            border-color: var(--mcd-blue);
+            background: var(--mcd-blue-soft);
+        }
+
+        .payment-method i {
+            font-size: 2rem;
+            color: var(--mcd-blue);
+            margin-bottom: 10px;
+        }
+
+        .payment-method span {
+            font-weight: 600;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 100px;
+            border: 1px solid rgba(30,136,229,0.05);
+        }
+
+        .summary-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--mcd-gray-soft);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--mcd-black-soft);
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--mcd-gray-soft);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .summary-total span:last-child {
+            color: var(--mcd-blue);
+        }
+
+        .promo-code {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .promo-code input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid var(--mcd-gray-soft);
+            border-radius: var(--radius-full);
+        }
+
+        .promo-code button {
+            padding: 12px 25px;
+            background: var(--mcd-black);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .promo-code button:hover {
+            background: var(--mcd-black-soft);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            margin-top: 20px;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--mcd-black-soft);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .continue-shopping:hover {
+            color: var(--mcd-blue);
+        }
+
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .empty-cart i {
+            font-size: 5rem;
+            color: var(--mcd-gray-soft);
+            margin-bottom: 20px;
+        }
+
+        .empty-cart h3 {
+            font-family: 'Archivo Black', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart .btn-shop {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--gradient-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .empty-cart .btn-shop:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-item {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .item-quantity {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- Header -->
+        <div class="checkout-header">
+            <h1>Secure <span>Checkout</span></h1>
+            <p>Complete your order in a few simple steps</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="checkout-progress">
+            <div class="progress-line">
+                <div class="progress-line-fill" id="progressFill" style="width: 33%"></div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle active" id="step1Circle">1</div>
+                <div class="step-label active" id="step1Label">Cart</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle" id="step2Circle">2</div>
+                <div class="step-label" id="step2Label">Delivery</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-circle" id="step3Circle">3</div>
+                <div class="step-label" id="step3Label">Payment</div>
+            </div>
+        </div>
+
+        <!-- Checkout Form -->
+        <form method="POST" action="{% url 'place_order' %}" id="checkoutForm">
+            {% csrf_token %}
+            
+            <div class="checkout-grid">
+                <!-- Left Column - Cart & Details -->
+                <div class="checkout-details">
+                    <!-- Cart Section (Step 1) -->
+                    <div class="cart-section" id="cartSection">
+                        <div class="section-title">
+                            <i class="bi bi-cart-fill"></i>
+                            Your Cart Items
+                        </div>
+                        
+                        <div id="cartItems">
+                            <!-- Cart items will be loaded dynamically via JavaScript -->
+                        </div>
+                        
+                        <div class="empty-cart" id="emptyCart" style="display: none;">
+                            <i class="bi bi-cart-x"></i>
+                            <h3>Your cart is empty</h3>
+                            <p>Looks like you haven't added any items yet</p>
+                            <a href="{% url 'menu' %}" class="btn-shop">Browse Menu</a>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Section (Step 2) -->
+                    <div class="delivery-section" id="deliverySection">
+                        <div class="section-title">
+                            <i class="bi bi-truck"></i>
+                            Delivery Information
+                        </div>
+                        
+                        <div class="delivery-form">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" name="full_name" id="fullName" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" name="phone" id="phone" pattern="[0-9]{10}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Email Address *</label>
+                                <input type="email" name="email" id="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Delivery Address *</label>
+                                <textarea name="address" id="address" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>City *</label>
+                                    <input type="text" name="city" id="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Pincode *</label>
+                                    <input type="text" name="pincode" id="pincode" pattern="[0-9]{6}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Delivery Instructions (Optional)</label>
+                                <textarea name="instructions" id="instructions" rows="2" placeholder="e.g., Leave at door, call on arrival"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Section (Step 3) -->
+                    <div class="payment-section" id="paymentSection">
+                        <div class="section-title">
+                            <i class="bi bi-credit-card"></i>
+                            Payment Method
+                        </div>
+                        
+                        <div class="payment-methods">
+                            <div class="payment-method">
+                                <input type="radio" name="payment_method" id="cod" value="cod" checked>
+                                <label for="cod">
+                                    <i class="bi bi-cash"></i>
+                                    <span>Cash on Delivery</span>
+                                </label>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <input type="radio" name="payment_method" id="card" value="card">
+                                <label for="card">
+                                    <i class="bi bi-credit-card"></i>
+                                    <span>Credit/Debit Card</span>
+                                </label>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <input type="radio" name="payment_method" id="upi" value="upi">
+                                <label for="upi">
+                                    <i class="bi bi-phone"></i>
+                                    <span>UPI</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Card Details (hidden by default) -->
+                        <div id="cardDetails" style="display: none;">
+                            <div class="form-group">
+                                <label>Card Number</label>
+                                <input type="text" name="card_number" placeholder="1234 5678 9012 3456">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Expiry Date</label>
+                                    <input type="text" name="expiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label>CVV</label>
+                                    <input type="text" name="cvv" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- UPI Details (hidden by default) -->
+                        <div id="upiDetails" style="display: none;">
+                            <div class="form-group">
+                                <label>UPI ID</label>
+                                <input type="text" name="upi_id" placeholder="username@okhdfcbank">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-title">Order Summary</div>
+                    
+                    <div id="summaryItems">
+                        <!-- Summary items will be loaded dynamically -->
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span id="deliveryFee">₹40</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Tax (GST)</span>
+                        <span id="tax">₹0</span>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <input type="text" id="promoCode" placeholder="Enter promo code">
+                        <button type="button" onclick="applyPromo()">Apply</button>
+                    </div>
+                    
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <span id="totalAmount">₹0</span>
+                    </div>
+                    
+                    <button type="submit" class="checkout-btn" id="placeOrderBtn">
+                        <i class="bi bi-lock-fill"></i> Place Order
+                    </button>
+                    
+                    <a href="{% url 'menu' %}" class="continue-shopping">
+                        <i class="bi bi-arrow-left"></i> Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Load cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function loadCart() {
+            const cartItems = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const summaryItems = document.getElementById('summaryItems');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '';
+                emptyCart.style.display = 'block';
+                document.getElementById('placeOrderBtn').disabled = true;
+                return;
+            }
+            
+            emptyCart.style.display = 'none';
+            document.getElementById('placeOrderBtn').disabled = false;
+            
+            let cartHTML = '';
+            let summaryHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach((item, index) => {
+                const quantity = item.quantity || 1;
+                const itemTotal = item.price * quantity;
+                subtotal += itemTotal;
+                
+                cartHTML += `
+                    <div class="cart-item" data-index="${index}">
+                        <div class="item-details">
+                            <div class="item-name">${item.name}</div>
+                            <div class="item-price">₹${item.price}</div>
+                        </div>
+                        <div class="item-quantity">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                            <span class="quantity-value">${quantity}</span>
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                        </div>
+                        <div class="item-total">₹${itemTotal}</div>
+                        <div class="remove-item" onclick="removeItem(${index})">
+                            <i class="bi bi-trash"></i>
+                        </div>
+                    </div>
+                `;
+                
+                summaryHTML += `
+                    <div class="summary-row">
+                        <span>${item.name} x ${quantity}</span>
+                        <span>₹${itemTotal}</span>
+                    </div>
+                `;
+            });
+            
+            cartItems.innerHTML = cartHTML;
+            summaryItems.innerHTML = summaryHTML;
+            
+            // Calculate totals
+            const deliveryFee = 40;
+            const tax = Math.round(subtotal * 0.05); // 5% GST
+            const total = subtotal + deliveryFee + tax;
+            
+            document.getElementById('subtotal').textContent = `₹${subtotal}`;
+            document.getElementById('tax').textContent = `₹${tax}`;
+            document.getElementById('totalAmount').textContent = `₹${total}`;
+            
+            // Store in session for backend
+            sessionStorage.setItem('checkout_total', total);
+            sessionStorage.setItem('checkout_subtotal', subtotal);
+        }
+
+        function updateQuantity(index, change) {
+            if (cart[index]) {
+                cart[index].quantity = (cart[index].quantity || 1) + change;
+                if (cart[index].quantity < 1) {
+                    cart.splice(index, 1);
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
+                loadCart();
+                updateCartCount();
+            }
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.querySelectorAll('.cart-count').forEach(el => {
+                if (el) el.textContent = count;
+            });
+        }
+
+        function applyPromo() {
+            const promo = document.getElementById('promoCode').value;
+            if (promo.toUpperCase() === 'BLUE50') {
+                const subtotal = parseInt(document.getElementById('subtotal').textContent.replace('₹', ''));
+                const discount = Math.min(subtotal * 0.5, 100);
+                alert(`Promo applied! You saved ₹${discount}`);
+                // Recalculate with discount
+                const deliveryFee = 40;
+                const tax = Math.round(subtotal * 0.05);
+                const total = subtotal - discount + deliveryFee + tax;
+                document.getElementById('totalAmount').textContent = `₹${total}`;
+            } else if (promo.toUpperCase() === 'BLUEFREE') {
+                alert('Free delivery applied!');
+                const subtotal = parseInt(document.getElementById('subtotal').textContent.replace('₹', ''));
+                const tax = Math.round(subtotal * 0.05);
+                const total = subtotal + tax;
+                document.getElementById('deliveryFee').textContent = '₹0';
+                document.getElementById('totalAmount').textContent = `₹${total}`;
+            } else {
+                alert('Invalid promo code');
+            }
+        }
+
+        // Payment method toggle
+        document.querySelectorAll('input[name="payment_method"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('cardDetails').style.display = 'none';
+                document.getElementById('upiDetails').style.display = 'none';
+                
+                if (this.value === 'card') {
+                    document.getElementById('cardDetails').style.display = 'block';
+                } else if (this.value === 'upi') {
+                    document.getElementById('upiDetails').style.display = 'block';
+                }
+            });
+        });
+
+        // Form validation
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            const required = ['fullName', 'phone', 'email', 'address', 'city', 'pincode'];
+            for (let field of required) {
+                if (!document.getElementById(field).value) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+            }
+            
+            // Add cart data to form
+            const cartInput = document.createElement('input');
+            cartInput.type = 'hidden';
+            cartInput.name = 'cart_data';
+            cartInput.value = JSON.stringify(cart);
+            this.appendChild(cartInput);
+            
+            // Submit form
+            this.submit();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

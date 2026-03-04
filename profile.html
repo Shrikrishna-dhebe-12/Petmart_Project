@@ -1,0 +1,885 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Petmart India - My Profile{% endblock %}
+{% block profile_status %}active{% endblock %}
+
+{% block main %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petmart - My Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --petmart-blue: #4A90E2;
+            --petmart-blue-dark: #3A7BC8;
+            --petmart-blue-light: #7BB0F0;
+            --petmart-blue-soft: #E6F0FF;
+            --petmart-orange: #FF9F4B;
+            --petmart-orange-soft: #FFF0E0;
+            --petmart-black: #272321;
+            --petmart-black-soft: #5E5A56;
+            --petmart-white: #FFFFFF;
+            --petmart-offwhite: #F9F9F9;
+            --petmart-gray-soft: #F5F5F5;
+            
+            --gradient-blue: linear-gradient(135deg, #4A90E2, #3A7BC8);
+            --shadow-lg: 0 15px 25px rgba(74,144,226,0.15);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.15);
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+            --radius-full: 9999px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f0f7ff, #ffffff, #f0f7ff);
+            color: var(--petmart-black);
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .profile-header h1 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2.5rem;
+            color: var(--petmart-black);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .profile-header h1 span {
+            background: var(--gradient-blue);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-header p {
+            color: var(--petmart-black-soft);
+            font-size: 1.1rem;
+        }
+
+        /* Profile Header Card */
+        .profile-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 30px;
+            border: 1px solid rgba(74,144,226,0.1);
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--gradient-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 5px;
+            color: var(--petmart-black);
+        }
+
+        .profile-email {
+            color: var(--petmart-blue);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-badges {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            background: var(--petmart-blue-soft);
+            color: var(--petmart-blue);
+        }
+
+        .badge i {
+            margin-right: 5px;
+        }
+
+        .edit-profile-btn {
+            padding: 12px 30px;
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .edit-profile-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            color: white;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 25px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(74,144,226,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--petmart-blue-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+
+        .stat-icon i {
+            font-size: 2rem;
+            color: var(--petmart-blue);
+        }
+
+        .stat-value {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 2rem;
+            color: var(--petmart-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--petmart-black-soft);
+            font-weight: 600;
+        }
+
+        /* Tabs */
+        .profile-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--petmart-gray-soft);
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            border: none;
+            background: none;
+            font-weight: 600;
+            color: var(--petmart-black-soft);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn i {
+            margin-right: 8px;
+        }
+
+        .tab-btn:hover {
+            background: var(--petmart-blue-soft);
+            color: var(--petmart-blue);
+        }
+
+        .tab-btn.active {
+            background: var(--gradient-blue);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Orders Section */
+        .orders-section {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(74,144,226,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-header h2 {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            color: var(--petmart-black);
+            margin: 0;
+        }
+
+        .section-header h2 i {
+            color: var(--petmart-blue);
+            margin-right: 10px;
+        }
+
+        .view-all-link {
+            color: var(--petmart-blue);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-link:hover {
+            color: var(--petmart-blue-dark);
+            transform: translateX(5px);
+        }
+
+        /* Order Cards */
+        .order-card {
+            background: var(--petmart-offwhite);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--petmart-gray-soft);
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--petmart-blue);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--petmart-gray-soft);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .order-id {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--petmart-black);
+        }
+
+        .order-id i {
+            color: var(--petmart-blue);
+            margin-right: 8px;
+        }
+
+        .order-status {
+            padding: 5px 15px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-pending {
+            background: #FFF0E0;
+            color: #FF9F4B;
+        }
+
+        .status-confirmed {
+            background: #E6F0FF;
+            color: #4A90E2;
+        }
+
+        .status-delivered {
+            background: #E0FFE0;
+            color: #28A745;
+        }
+
+        .status-cancelled {
+            background: #FFE0E0;
+            color: #DC3545;
+        }
+
+        .order-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .order-detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--petmart-black-soft);
+        }
+
+        .order-detail-item i {
+            color: var(--petmart-blue);
+            width: 20px;
+        }
+
+        .order-items {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .order-item-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--petmart-gray-soft);
+        }
+
+        .order-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 600;
+        }
+
+        .item-quantity {
+            color: var(--petmart-blue);
+            font-weight: 600;
+        }
+
+        .item-price {
+            font-weight: 600;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid var(--petmart-gray-soft);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .order-total span:last-child {
+            color: var(--petmart-blue);
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .order-date {
+            color: var(--petmart-black-soft);
+        }
+
+        .order-date i {
+            color: var(--petmart-blue);
+            margin-right: 5px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-view, .btn-repeat {
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view {
+            background: var(--petmart-blue-soft);
+            color: var(--petmart-blue);
+        }
+
+        .btn-view:hover {
+            background: var(--petmart-blue);
+            color: white;
+        }
+
+        .btn-repeat {
+            background: var(--gradient-blue);
+            color: white;
+        }
+
+        .btn-repeat:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Settings Form */
+        .settings-section {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(74,144,226,0.1);
+        }
+
+        .settings-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .settings-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--petmart-black-soft);
+        }
+
+        .settings-form input, 
+        .settings-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--petmart-gray-soft);
+            border-radius: var(--radius-full);
+            transition: all 0.3s ease;
+        }
+
+        .settings-form input:focus, 
+        .settings-form textarea:focus {
+            border-color: var(--petmart-blue);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74,144,226,0.1);
+        }
+
+        .settings-form input[readonly] {
+            background: var(--petmart-gray-soft);
+            cursor: not-allowed;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .save-btn {
+            padding: 15px 40px;
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state i {
+            font-size: 5rem;
+            color: var(--petmart-gray-soft);
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-family: 'Archivo Black', sans-serif;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: var(--petmart-black-soft);
+            margin-bottom: 25px;
+        }
+
+        .empty-state .btn-shop {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--gradient-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .empty-state .btn-shop:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Pet-themed decorative elements */
+        .profile-header::after {
+            content: '🐾';
+            font-size: 2rem;
+            opacity: 0.1;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-badges {
+                justify-content: center;
+            }
+            
+            .order-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .order-actions {
+                width: 100%;
+            }
+            
+            .btn-view, .btn-repeat {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Header -->
+        <div class="profile-header">
+            <h1>My <span>Profile</span></h1>
+            <p>Manage your account and view your order history</p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <div class="profile-avatar">
+                <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name">{{ user.get_full_name|default:user.username }}</div>
+                <div class="profile-email">{{ user.email }}</div>
+                <div class="profile-badges">
+                    <span class="badge"><i class="bi bi-patch-check"></i> Verified Account</span>
+                    <span class="badge"><i class="bi bi-calendar"></i> Member since {{ user.date_joined|date:"M Y" }}</span>
+                </div>
+            </div>
+            <button class="edit-profile-btn" onclick="showTab('settings')">
+                <i class="bi bi-pencil-square"></i> Edit Profile
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-bag-check"></i>
+                </div>
+                <div class="stat-value" id="totalOrders">0</div>
+                <div class="stat-label">Total Orders</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-currency-rupee"></i>
+                </div>
+                <div class="stat-value" id="totalSpent">₹0</div>
+                <div class="stat-label">Total Spent</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-star"></i>
+                </div>
+                <div class="stat-value" id="loyaltyPoints">0</div>
+                <div class="stat-label">Loyalty Points</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-btn active" onclick="showTab('orders')">
+                <i class="bi bi-bag"></i> My Orders
+            </button>
+            <button class="tab-btn" onclick="showTab('settings')">
+                <i class="bi bi-gear"></i> Account Settings
+            </button>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content active">
+            <div class="orders-section">
+                <div class="section-header">
+                    <h2><i class="bi bi-bag-check"></i> Recent Orders</h2>
+                    <a href="{% url 'orders' %}" class="view-all-link">View All Orders <i class="bi bi-arrow-right"></i></a>
+                </div>
+                
+                <div id="ordersList">
+                    {% if orders %}
+                        {% for order in orders %}
+                        <div class="order-card">
+                            <div class="order-header">
+                                <span class="order-id"><i class="bi bi-receipt"></i> Order #{{ order.id }}</span>
+                                <span class="order-status status-{{ order.status }}">
+                                    {% if order.status == 'pending' %}
+                                        <i class="bi bi-clock"></i> Pending
+                                    {% elif order.status == 'confirmed' %}
+                                        <i class="bi bi-check-circle"></i> Confirmed
+                                    {% elif order.status == 'delivered' %}
+                                        <i class="bi bi-check-circle-fill"></i> Delivered
+                                    {% elif order.status == 'cancelled' %}
+                                        <i class="bi bi-x-circle"></i> Cancelled
+                                    {% else %}
+                                        {{ order.status|title }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            
+                            <div class="order-details">
+                                <div class="order-detail-item">
+                                    <i class="bi bi-calendar"></i>
+                                    <span>{{ order.order_date|date:"d M Y" }}</span>
+                                </div>
+                                <div class="order-detail-item">
+                                    <i class="bi bi-currency-rupee"></i>
+                                    <span>Total: ₹{{ order.total }}</span>
+                                </div>
+                                <div class="order-detail-item">
+                                    <i class="bi bi-box"></i>
+                                    <span>{{ order.items.count }} items</span>
+                                </div>
+                            </div>
+                            
+                            <div class="order-footer">
+                                <div class="order-date">
+                                    <i class="bi bi-clock"></i> {{ order.order_date|date:"h:i A" }}
+                                </div>
+                                <div class="order-actions">
+                                    <a href="{% url 'order_detail' order.id %}" class="btn-view">
+                                        <i class="bi bi-eye"></i> View Details
+                                    </a>
+                                    <a href="{% url 'menu' %}" class="btn-repeat">
+                                        <i class="bi bi-arrow-repeat"></i> Order Again
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state" id="emptyOrders">
+                            <i class="bi bi-bag-x"></i>
+                            <h3>No Orders Yet</h3>
+                            <p>Looks like you haven't placed any orders. Time to spoil your pet!</p>
+                            <a href="{% url 'menu' %}" class="btn-shop">
+                                <i class="bi bi-shop"></i> Browse Products
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content">
+            <div class="settings-section">
+                <div class="section-header">
+                    <h2><i class="bi bi-person-gear"></i> Account Settings</h2>
+                </div>
+                
+                <!-- Removed form action - profile update feature coming soon -->
+                <div class="settings-form" id="profileForm">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label><i class="bi bi-person"></i> Username</label>
+                        <input type="text" value="{{ user.username }}" readonly>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="bi bi-envelope"></i> Email</label>
+                            <input type="email" name="email" value="{{ user.email }}" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="bi bi-phone"></i> Phone Number</label>
+                            <input type="tel" name="phone" id="profilePhone" value="{{ user.profile.phone|default:'' }}" placeholder="Enter phone number" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="bi bi-geo-alt"></i> Default Delivery Address</label>
+                        <textarea name="address" id="profileAddress" rows="3" placeholder="Enter your default delivery address" readonly>{{ user.profile.address|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="bi bi-building"></i> City</label>
+                            <input type="text" name="city" id="profileCity" value="{{ user.profile.city|default:'' }}" placeholder="Enter city" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="bi bi-mailbox"></i> Pincode</label>
+                            <input type="text" name="pincode" id="profilePincode" value="{{ user.profile.pincode|default:'' }}" placeholder="Enter pincode" readonly>
+                        </div>
+                    </div>
+                    
+                    <hr style="margin: 30px 0; border-color: var(--petmart-gray-soft);">
+                    
+                    <h3 style="margin-bottom: 20px; color: var(--petmart-blue);">Change Password</h3>
+                    
+                    <div class="form-group">
+                        <label><i class="bi bi-lock"></i> Current Password</label>
+                        <input type="password" name="current_password" id="currentPassword" disabled>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="bi bi-lock"></i> New Password</label>
+                            <input type="password" name="new_password" id="newPassword" disabled>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="bi bi-lock"></i> Confirm New Password</label>
+                            <input type="password" name="confirm_password" id="confirmPassword" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle"></i> Profile update feature coming soon!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateStats() {
+            // Get values from Django context
+            const totalOrders = parseInt('{{ total_orders|default:0 }}');
+            const totalSpent = parseFloat('{{ total_spent|default:0 }}');
+            
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('totalSpent').textContent = `₹${totalSpent.toFixed(2)}`;
+            document.getElementById('loyaltyPoints').textContent = Math.floor(totalSpent / 10);
+        }
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+        });
+    </script>
+</body>
+</html>
+{% endblock %}
